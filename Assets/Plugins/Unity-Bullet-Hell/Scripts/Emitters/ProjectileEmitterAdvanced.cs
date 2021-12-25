@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Linq;
+using System;
 
 namespace BulletHell
 {
@@ -337,7 +339,14 @@ namespace BulletHell
                         result = Physics2D.CircleCast(node.Item.Position, radius, deltaPosition, ContactFilter, RaycastHitBuffer, distance);
                     }
 
+                    GameObject player = null;
                     if (result > 0)
+                    {
+                        int playerIndex = Array.FindIndex(RaycastHitBuffer, h => h.transform.CompareTag("Player"));
+                        if (playerIndex != -1) player = RaycastHitBuffer[playerIndex].transform.gameObject;
+                    }
+
+                    if (player)
                     {
                         // Put whatever hit code you want here such as damage events
 
