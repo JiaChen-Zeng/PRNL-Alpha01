@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2021-12-25T05:15:32.656Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="TNDk6MGvMsdxC8UxxJDl" version="16.1.0" type="github">
-  <diagram id="Hx5UEKI3edYFpY9mwvk1" name="Page-1">
-    <mxGraphModel dx="1865" dy="588" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+<mxfile host="app.diagrams.net" modified="2021-12-25T05:19:05.835Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="4Z6tU0Jx4QvSuHNTMLKQ" version="16.1.0" type="github">
+  <diagram id="Hx5UEKI3edYFpY9mwvk1" name="Platform プリハブバリアントの構造">
+    <mxGraphModel dx="1038" dy="588" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -17,19 +17,19 @@
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-1" value="Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="130" width="120" height="60" as="geometry" />
+          <mxGeometry x="340" y="80" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-2" value="Static Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-120" y="230" width="120" height="60" as="geometry" />
+          <mxGeometry x="200" y="180" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-4" value="Dynamic Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="20" y="230" width="120" height="60" as="geometry" />
+          <mxGeometry x="340" y="180" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-6" value="Start Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="-280" y="230" width="120" height="60" as="geometry" />
+          <mxGeometry x="40" y="180" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-8" value="機能上の分類 / Feature Category" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="-60" y="70" width="200" height="20" as="geometry" />
+          <mxGeometry x="300" y="40" width="200" height="20" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-12" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="zi24o6_-LfvCJ8aNX14m-9" target="zi24o6_-LfvCJ8aNX14m-11">
           <mxGeometry relative="1" as="geometry" />
@@ -43,40 +43,46 @@
         <mxCell id="zi24o6_-LfvCJ8aNX14m-19" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="zi24o6_-LfvCJ8aNX14m-9" target="zi24o6_-LfvCJ8aNX14m-18">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="zi24o6_-LfvCJ8aNX14m-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=default;" edge="1" parent="1" source="zi24o6_-LfvCJ8aNX14m-9" target="zi24o6_-LfvCJ8aNX14m-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-9" value="Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="160" y="330" width="120" height="60" as="geometry" />
+          <mxGeometry x="340" y="340" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-10" value="見た目上の分類 / Appearance Category&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="306" y="280" width="230" height="20" as="geometry" />
+          <mxGeometry x="420" y="310" width="230" height="20" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-11" value="Level 1 Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="160" y="430" width="120" height="60" as="geometry" />
+          <mxGeometry x="44" y="460" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-13" value="Level 2 Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="306" y="430" width="120" height="60" as="geometry" />
+          <mxGeometry x="190" y="460" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-15" value="Level 3 Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="456" y="430" width="120" height="60" as="geometry" />
+          <mxGeometry x="340" y="460" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-18" value="Level 4 Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="606" y="430" width="120" height="60" as="geometry" />
+          <mxGeometry x="490" y="460" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-21" value="&lt;span style=&quot;color: rgb(0 , 0 , 0) ; font-family: &amp;#34;helvetica&amp;#34; ; font-size: 11px ; font-style: normal ; font-weight: 400 ; letter-spacing: normal ; text-indent: 0px ; text-transform: none ; word-spacing: 0px ; background-color: rgb(255 , 255 , 255) ; display: inline ; float: none&quot;&gt;その分類の中に&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(0 , 0 , 0) ; font-family: &amp;#34;helvetica&amp;#34; ; font-size: 11px ; font-style: normal ; font-weight: 400 ; letter-spacing: normal ; text-indent: 0px ; text-transform: none ; word-spacing: 0px ; background-color: rgb(255 , 255 , 255) ; display: inline ; float: none&quot;&gt;/&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: rgb(0 , 0 , 0) ; font-family: &amp;#34;helvetica&amp;#34; ; font-size: 11px ; font-style: normal ; font-weight: 400 ; letter-spacing: normal ; text-indent: 0px ; text-transform: none ; word-spacing: 0px ; background-color: rgb(255 , 255 , 255) ; display: inline ; float: none&quot;&gt;Inside the category&lt;/span&gt;" style="text;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
-          <mxGeometry x="-38" y="314" width="190" height="30" as="geometry" />
+          <mxGeometry x="190" y="264" width="190" height="30" as="geometry" />
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-22" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeColor=default;endArrow=classic;endFill=1;" edge="1" parent="1" source="zi24o6_-LfvCJ8aNX14m-6" target="zi24o6_-LfvCJ8aNX14m-9">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-220" y="370" />
+              <mxPoint x="100" y="320" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="zi24o6_-LfvCJ8aNX14m-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;dashed=1;strokeColor=default;endArrow=classic;endFill=1;" edge="1" parent="1" source="zi24o6_-LfvCJ8aNX14m-2" target="zi24o6_-LfvCJ8aNX14m-9">
           <mxGeometry relative="1" as="geometry">
             <Array as="points">
-              <mxPoint x="-60" y="350" />
+              <mxPoint x="260" y="300" />
             </Array>
           </mxGeometry>
+        </mxCell>
+        <mxCell id="zi24o6_-LfvCJ8aNX14m-26" value="Level 5 Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="460" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
