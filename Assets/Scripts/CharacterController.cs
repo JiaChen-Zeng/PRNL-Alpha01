@@ -7,12 +7,17 @@ using UnityEngine.Events;
 public class CharacterController : MonoBehaviour
 {
     [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float m_ShieldJumpForce = 400f;                          // Amount of force added when the player jumps.
     [SerializeField] private float m_moveSpeed = 10f;                          // Amount of force added when the player jumps.
+    [SerializeField] private int m_airJumpMaxCount = 1;
     [Range(0, 10)] [SerializeField] private float m_fallMultiplier = 2f;         
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
+    [SerializeField] private Transform m_shieldJumpCheck;
+    [SerializeField] private float m_xMinConstraint;
+    [SerializeField] private float m_xMaxConstraint;
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
@@ -21,8 +26,9 @@ public class CharacterController : MonoBehaviour
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector2 m_Velocity = Vector3.zero;
     private int mAirJumpCount = 0;
-    private int mAirJumpMaxCount = 1;
     private float mHorizontalMove = 0f;
+    private bool mCanShieldJump = false;
+    private Vector3 mNewPosition = new Vector3();
 
     [Header("Events")]
     [Space]
@@ -39,7 +45,26 @@ public class CharacterController : MonoBehaviour
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
 
-        mAirJumpMaxCount = 1;
+        m_airJumpMaxCount = 1;
+    }
+
+    private void OnEnable()
+    {
+        //EventManager.pInstance.OnShieldCollision += OnShieldCollision;
+    }
+
+    private void OnShieldCollision(Collider2D collider, bool enter)
+    {
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            //if(enter && collider)
+            //{
+            //    DoShieldJump();
+            //}
+        }
+        else
+            mCanShieldJump = false;
+        //Debug.LogFormat("On enter = {0}", enter);
     }
 
     private void FixedUpdate()
@@ -81,26 +106,30 @@ public class CharacterController : MonoBehaviour
                 Flip();
             }
         }
-
-        
+        mNewPosition = m_Rigidbody.position;
+        mNewPosition.x = Mathf.Clamp(mNewPosition.x, m_xMinConstraint, m_xMaxConstraint);
+        m_Rigidbody.position = mNewPosition;
     }
 
     private void Update()
     {
         mHorizontalMove = Input.GetAxisRaw("Horizontal");
+        ShieldJumpCheck();
         if (m_Grounded)
         {
             mAirJumpCount = 0;
         }
 
-        if(Input.GetKeyDown(KeyCode.Space) && m_Grounded)
+        if (Input.GetKeyDown(KeyCode.Space) && m_Grounded)
         {
             m_Rigidbody.velocity = Vector3.up * m_JumpForce;
-            
+
         }
-        else if(Input.GetKeyDown(KeyCode.Space))
+        else if (mCanShieldJump && Input.GetKeyDown(KeyCode.Space))
+            DoShieldJump();
+        else if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (mAirJumpCount < mAirJumpMaxCount)
+            if (mAirJumpCount < m_airJumpMaxCount)
             {
                 m_Rigidbody.velocity = Vector3.up * m_JumpForce;
                 mAirJumpCount++;
@@ -108,6 +137,22 @@ public class CharacterController : MonoBehaviour
         }
     }
 
+    private void DoShieldJump()
+    {
+        m_Rigidbody.velocity = Vector3.up * m_ShieldJumpForce;
+        Debug.LogFormat("Shield jump");
+    }
+
+    private void ShieldJumpCheck()
+    {
+        if (!m_Grounded && m_Rigidbody.velocity.y < 0)
+        {
+            mCanShieldJump = Physics2D.OverlapCircle(m_shieldJumpCheck.position, k_GroundedRadius, m_WhatIsGround);
+        }
+        else
+            mCanShieldJump = false;
+
+    }
 
     private void Flip()
     {
@@ -118,5 +163,16 @@ public class CharacterController : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    private void OnDestroy()
+    {
+        //EventManager.pInstance.OnShieldCollision -= OnShieldCollision;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(m_shieldJumpCheck.position, k_GroundedRadius);
     }
 }
