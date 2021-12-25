@@ -24,4 +24,14 @@ public class ShieldController : MonoBehaviour
         mClampPosition.z = 0;
         this.transform.localPosition = mClampPosition;
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        EventManager.pInstance.TriggerShieldCollision(collision, true);
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        EventManager.pInstance.TriggerShieldCollision(collision, false);
+    }
 }
