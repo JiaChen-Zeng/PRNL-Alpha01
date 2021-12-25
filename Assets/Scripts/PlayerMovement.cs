@@ -16,11 +16,13 @@ public class PlayerMovement : MonoBehaviour
         mHorizontalMove = Input.GetAxisRaw("Horizontal") * _runSpeed;
         if (Input.GetButtonDown("Jump"))
             mJump = true;
+        //_controller.Move(mHorizontalMove * Time.fixedDeltaTime, false, mJump);
+
     }
 
     private void FixedUpdate()
     {
-        _controller.Move(mHorizontalMove * Time.fixedDeltaTime, false, mJump);
+      // _controller.Move(mHorizontalMove * Time.fixedDeltaTime, false, mJump);
         mJump = false;
     }
 }
