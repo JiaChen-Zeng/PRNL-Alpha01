@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-12-25T05:51:15.291Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="2_WyL4tmH-dPGwBr86Mr" version="16.1.0" type="github" pages="2">
+<mxfile host="app.diagrams.net" modified="2021-12-25T06:01:15.403Z" agent="5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36" etag="tiSLgppRjgH9c4W_gQTx" version="16.1.0" type="github" pages="2">
   <diagram name="Platform 分類の構造" id="VD4uk0MO3E0-59eNpMkB">
     <mxGraphModel dx="1038" dy="588" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -65,7 +65,7 @@
           <mxGeometry x="634" y="530" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="X16JrJfT3DH1KEewsnlV-0" value="Short Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ILHym0MI4STI9gDSvQ9b-1">
-          <mxGeometry x="184" y="810" width="120" height="60" as="geometry" />
+          <mxGeometry x="257" y="810" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="X16JrJfT3DH1KEewsnlV-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=default;" edge="1" parent="ILHym0MI4STI9gDSvQ9b-1" source="X16JrJfT3DH1KEewsnlV-1" target="X16JrJfT3DH1KEewsnlV-0">
           <mxGeometry relative="1" as="geometry" />
@@ -76,17 +76,23 @@
         <mxCell id="X16JrJfT3DH1KEewsnlV-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=default;" edge="1" parent="ILHym0MI4STI9gDSvQ9b-1" source="X16JrJfT3DH1KEewsnlV-1" target="X16JrJfT3DH1KEewsnlV-3">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
+        <mxCell id="X16JrJfT3DH1KEewsnlV-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=classic;endFill=1;strokeColor=default;" edge="1" parent="ILHym0MI4STI9gDSvQ9b-1" source="X16JrJfT3DH1KEewsnlV-1" target="X16JrJfT3DH1KEewsnlV-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="X16JrJfT3DH1KEewsnlV-1" value="Platform" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;" vertex="1" parent="ILHym0MI4STI9gDSvQ9b-1">
           <mxGeometry x="334" y="690" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="X16JrJfT3DH1KEewsnlV-2" value="Normal Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ILHym0MI4STI9gDSvQ9b-1">
-          <mxGeometry x="334" y="810" width="120" height="60" as="geometry" />
+          <mxGeometry x="407" y="810" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="X16JrJfT3DH1KEewsnlV-3" value="Long Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ILHym0MI4STI9gDSvQ9b-1">
-          <mxGeometry x="484" y="810" width="120" height="60" as="geometry" />
+          <mxGeometry x="557" y="810" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="X16JrJfT3DH1KEewsnlV-7" value="形状上の分類 / Shape Category&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="ILHym0MI4STI9gDSvQ9b-1">
           <mxGeometry x="299" y="635" width="190" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="X16JrJfT3DH1KEewsnlV-8" value="Start Platform" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="ILHym0MI4STI9gDSvQ9b-1">
+          <mxGeometry x="111" y="810" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
