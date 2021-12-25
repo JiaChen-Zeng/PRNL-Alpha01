@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class CharacterController : MonoBehaviour
 {
     [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float m_moveSpeed = 10f;                          // Amount of force added when the player jumps.
     [Range(0, 10)] [SerializeField] private float m_fallMultiplier = 2f;         
     [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
@@ -16,11 +17,12 @@ public class CharacterController : MonoBehaviour
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
-    private Rigidbody m_Rigidbody;
+    private Rigidbody2D m_Rigidbody;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-    private Vector3 m_Velocity = Vector3.zero;
+    private Vector2 m_Velocity = Vector3.zero;
     private int mAirJumpCount = 0;
     private int mAirJumpMaxCount = 1;
+    private float mHorizontalMove = 0f;
 
     [Header("Events")]
     [Space]
@@ -32,7 +34,7 @@ public class CharacterController : MonoBehaviour
 
     private void Awake()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
+        m_Rigidbody = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
             OnLandEvent = new UnityEvent();
@@ -45,40 +47,27 @@ public class CharacterController : MonoBehaviour
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
+
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        Collider[] colliders = Physics.OverlapSphere(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-        for (int i = 0; i < colliders.Length; i++)
-        {
-            if (colliders[i].gameObject != gameObject)
-            {
-                m_Grounded = true;
-                if (!wasGrounded)
-                    OnLandEvent.Invoke();
-            }
-        }
+        m_Grounded = Physics2D.OverlapCircle(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+        if (!wasGrounded)
+            OnLandEvent.Invoke();
+
+        Move(mHorizontalMove);
     }
 
 
-    public void Move(float move, bool crouch, bool jump)
+    public void Move(float move)
     {
-        if(m_Grounded)
-        {
-            mAirJumpCount = 0;
-        }
+        
         //only control the player if grounded or airControl is turned on
         if (m_Grounded || m_AirControl)
         {
-
-            if (m_Rigidbody.velocity.y < 0)
-            {
-                m_Rigidbody.velocity += Vector3.up * Physics.gravity.y * (m_fallMultiplier - 1) * Time.fixedDeltaTime;
-            }
             // Move the character by finding the target velocity
-            Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody.velocity.y);
+            Vector2 targetVelocity = new Vector2(move * m_moveSpeed, m_Rigidbody.velocity.y);
             // And then smoothing it out and applying it to the character
-            m_Rigidbody.velocity = Vector3.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
-
+            m_Rigidbody.velocity = Vector2.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
             // If the input is moving the player right and the player is facing left...
             if (move > 0 && !m_FacingRight)
             {
@@ -93,22 +82,28 @@ public class CharacterController : MonoBehaviour
             }
         }
 
-        if(Input.GetKey(KeyCode.Space))
+        
+    }
+
+    private void Update()
+    {
+        mHorizontalMove = Input.GetAxisRaw("Horizontal");
+        if (m_Grounded)
         {
-            if(m_Grounded)
+            mAirJumpCount = 0;
+        }
+
+        if(Input.GetKeyDown(KeyCode.Space) && m_Grounded)
+        {
+            m_Rigidbody.velocity = Vector3.up * m_JumpForce;
+            
+        }
+        else if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if (mAirJumpCount < mAirJumpMaxCount)
             {
                 m_Rigidbody.velocity = Vector3.up * m_JumpForce;
-            }
-            else
-            {
-                if(Input.GetKeyDown(KeyCode.Space))
-                {
-                    if (mAirJumpCount < mAirJumpMaxCount)
-                    {
-                        m_Rigidbody.velocity = Vector3.up * m_JumpForce;
-                        mAirJumpCount++;
-                    }
-                }
+                mAirJumpCount++;
             }
         }
     }
