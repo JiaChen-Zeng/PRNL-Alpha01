@@ -9,11 +9,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1847654598113801968, guid: e4f84b892e6c107478e18c216b3cd711, type: 3}
       propertyPath: m_Name
-      value: Platform-Long
+      value: Platform-Short
       objectReference: {fileID: 0}
     - target: {fileID: 1847654598113801972, guid: e4f84b892e6c107478e18c216b3cd711, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1847654598113801972, guid: e4f84b892e6c107478e18c216b3cd711, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.85
       objectReference: {fileID: 0}
     - target: {fileID: 1847654598113801972, guid: e4f84b892e6c107478e18c216b3cd711, type: 3}
       propertyPath: m_LocalRotation.w
