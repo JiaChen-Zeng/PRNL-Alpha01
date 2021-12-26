@@ -9,12 +9,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1244835673676852387, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
       propertyPath: m_danmakuList.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1244835673676852387, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
       propertyPath: m_danmakuList.Array.data[0]
       value: 
       objectReference: {fileID: 1961109665948453743, guid: 4b8d692d6d8757644abc02d374db025d, type: 3}
+    - target: {fileID: 1244835673676852387, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_danmakuList.Array.data[1]
+      value: 
+      objectReference: {fileID: 4828272978367951648, guid: 5efefb87362082c48a87453faa92eba0, type: 3}
+    - target: {fileID: 1244835673676852387, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_danmakuDurations.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244835673676852387, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_danmakuDurations.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244835673676852387, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_danmakuDurations.Array.data[1]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3997292227611762342, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
       propertyPath: m_Name
       value: Enemy-Boss-1
