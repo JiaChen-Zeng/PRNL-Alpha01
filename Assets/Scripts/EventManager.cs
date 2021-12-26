@@ -23,4 +23,22 @@ public class EventManager : MonoBehaviour
         if (OnShieldCollision != null)
             OnShieldCollision.Invoke(collider, enter);
     }
+
+    public delegate void DamageReceived(Collider bullet);
+    public event DamageReceived OnDamageReceived;
+
+    public void TriggerDamageReceived(Collider bullet)
+    {
+        if (OnDamageReceived != null)
+            OnDamageReceived.Invoke(bullet);
+    }
+
+    public delegate void DestroyBullet(Collider bullet);
+    public event DestroyBullet OnDestroyBullet;
+
+    public void TriggerDestroyBullet(Collider bullet)
+    {
+        if (OnDestroyBullet != null)
+            OnDestroyBullet.Invoke(bullet);
+    }
 }

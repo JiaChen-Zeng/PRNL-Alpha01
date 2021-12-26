@@ -6,6 +6,10 @@ public class ShieldController : MonoBehaviour
 {
     [SerializeField] private float m_shieldMoveSpeed = 2f;
     [SerializeField] private float m_shieldClamp = 2f;
+
+    [Header("Stats")]
+    [SerializeField] private float m_shieldCapacity;
+
     private float m_horizontal = 0f;
     private float m_vertical = 0f;
     private Vector3 mClampPosition = new Vector3();
@@ -14,6 +18,16 @@ public class ShieldController : MonoBehaviour
     private void Start()
     {
         mInitialPosition = this.transform.localPosition;
+    }
+
+    private void OnEnable()
+    {
+        EventManager.pInstance.OnDamageReceived += OnDamageReceived;
+    }
+
+    private void OnDamageReceived(Collider bullet)
+    {
+        //substract the shield capacity and rest reduce the hitpoints
     }
 
     // Update is called once per frame
@@ -41,5 +55,10 @@ public class ShieldController : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         EventManager.pInstance.TriggerShieldCollision(collision, false);
+    }
+
+    private void OnDestroy()
+    {
+        EventManager.pInstance.OnDamageReceived -= OnDamageReceived;
     }
 }
