@@ -77,7 +77,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   TimeToLive: 5
   CoolOffTime: 0.3
-  AutoFire: 1
+  AutoFire: 0
   Direction: {x: 0, y: -1}
   Speed: 3
   MaxSpeed: 100
@@ -183,7 +183,7 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   TimeToLive: 5
   CoolOffTime: 0.3
-  AutoFire: 1
+  AutoFire: 0
   Direction: {x: 0, y: -1}
   Speed: 3
   MaxSpeed: 100

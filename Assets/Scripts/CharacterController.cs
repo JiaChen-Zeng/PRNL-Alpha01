@@ -18,6 +18,10 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private Transform m_shieldJumpCheck;
     [SerializeField] private float m_xMinConstraint;
     [SerializeField] private float m_xMaxConstraint;
+    [SerializeField] private bool m_flip = true;
+
+    [Header("Stats")]
+    [SerializeField] private float m_hitPoints;
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
@@ -51,6 +55,12 @@ public class CharacterController : MonoBehaviour
     private void OnEnable()
     {
         //EventManager.pInstance.OnShieldCollision += OnShieldCollision;
+        EventManager.pInstance.OnDamageReceived += OnDamageReceived;
+    }
+
+    private void OnDamageReceived(Collider bullet)
+    {
+        //reduce the hit points
     }
 
     private void OnShieldCollision(Collider2D collider, bool enter)
@@ -94,16 +104,19 @@ public class CharacterController : MonoBehaviour
             // And then smoothing it out and applying it to the character
             m_Rigidbody.velocity = Vector2.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
             // If the input is moving the player right and the player is facing left...
-            if (move > 0 && !m_FacingRight)
+            if (m_flip)
             {
-                // ... flip the player.
-                Flip();
-            }
-            // Otherwise if the input is moving the player left and the player is facing right...
-            else if (move < 0 && m_FacingRight)
-            {
-                // ... flip the player.
-                Flip();
+                if (move > 0 && !m_FacingRight)
+                {
+                    // ... flip the player.
+                    Flip();
+                }
+                // Otherwise if the input is moving the player left and the player is facing right...
+                else if (move < 0 && m_FacingRight)
+                {
+                    // ... flip the player.
+                    Flip();
+                }
             }
         }
         mNewPosition = m_Rigidbody.position;
@@ -168,6 +181,7 @@ public class CharacterController : MonoBehaviour
     private void OnDestroy()
     {
         //EventManager.pInstance.OnShieldCollision -= OnShieldCollision;
+        EventManager.pInstance.OnDamageReceived -= OnDamageReceived;
     }
 
     private void OnDrawGizmos()

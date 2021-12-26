@@ -12,7 +12,15 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5588074910946534015, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
+      propertyPath: m_danmakuList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -5588074910946534015, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
       propertyPath: m_danmakus.Array.data[0]
+      value: 
+      objectReference: {fileID: 4828272978367951648, guid: 5efefb87362082c48a87453faa92eba0, type: 3}
+    - target: {fileID: -5588074910946534015, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
+      propertyPath: m_danmakuList.Array.data[0]
       value: 
       objectReference: {fileID: 4828272978367951648, guid: 5efefb87362082c48a87453faa92eba0, type: 3}
     - target: {fileID: 3997292227611762342, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
