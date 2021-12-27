@@ -280,9 +280,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 476248044}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 890707fb40d5b3b4a8d2d8f769b01f9c, type: 3}
+  m_Script: {fileID: 11500000, guid: 50952b32cc3820b488276a1f32d9b785, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Monologue: "\u5FC3\u7406\u63CF\u5199\u30C6\u30B9\u30C8\u30C6\u30B9\u30C8"
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
