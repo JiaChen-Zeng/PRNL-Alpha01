@@ -8,21 +8,28 @@ public class ShieldController : MonoBehaviour
 {
     [SerializeField] private float m_shieldMoveSpeed = 2f;
 
+    private CharacterController m_cc;
+
+    /// <summary>
+    /// 盾の回転角度
+    /// </summary>
     private float rotation
     {
         get
         {
-            Vector2 shieldControl = new Vector2(Input.GetAxis("ShieldHorizontal"), Input.GetAxis("ShieldVertical"));
+            float x = (m_cc.FacingRight ? 1 : -1) * Input.GetAxis("ShieldHorizontal");
+            float y = Input.GetAxis("ShieldVertical");
+            Vector2 shieldControl = new Vector2(x, y);
             return Vector2.SignedAngle(Vector2.right, shieldControl);
         }
     }
 
-    private void Start()
+    private void Awake()
     {
-        
+        m_cc = GetComponentInParent<CharacterController>();
     }
 
-    void Update()
+    private void Update()
     {
         transform.localEulerAngles = Vector3.forward * rotation;
     }

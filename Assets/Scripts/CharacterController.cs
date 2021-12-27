@@ -28,6 +28,7 @@ public class CharacterController : MonoBehaviour
     //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
     private Rigidbody2D m_Rigidbody;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+    public bool FacingRight { get => m_FacingRight; private set => m_FacingRight = value; }
     private Vector2 m_Velocity = Vector3.zero;
     private int mAirJumpCount = 0;
     private float mHorizontalMove = 0f;
@@ -106,13 +107,13 @@ public class CharacterController : MonoBehaviour
             // If the input is moving the player right and the player is facing left...
             if (m_flip)
             {
-                if (move > 0 && !m_FacingRight)
+                if (move > 0 && !FacingRight)
                 {
                     // ... flip the player.
                     Flip();
                 }
                 // Otherwise if the input is moving the player left and the player is facing right...
-                else if (move < 0 && m_FacingRight)
+                else if (move < 0 && FacingRight)
                 {
                     // ... flip the player.
                     Flip();
@@ -170,7 +171,7 @@ public class CharacterController : MonoBehaviour
     private void Flip()
     {
         // Switch the way the player is labelled as facing.
-        m_FacingRight = !m_FacingRight;
+        FacingRight = !FacingRight;
 
         // Multiply the player's x local scale by -1.
         Vector3 theScale = transform.localScale;
