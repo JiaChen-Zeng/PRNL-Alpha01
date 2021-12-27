@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class ShieldEventHandler : MonoBehaviour
 {
+    [Header("Stats")]
+    [SerializeField] private float m_shieldCapacity;
+
     private void OnEnable()
     {
         EventManager.pInstance.OnDamageReceived += OnDamageReceived;

@@ -8,9 +8,6 @@ public class ShieldController : MonoBehaviour
     [SerializeField] private float m_shieldMoveSpeed = 2f;
     [SerializeField] private float m_shieldClamp = 2f;
 
-    [Header("Stats")]
-    [SerializeField] private float m_shieldCapacity;
-
     private float m_horizontal = 0f;
     private float m_vertical = 0f;
     private Vector3 m_ClampPosition = new Vector3();
