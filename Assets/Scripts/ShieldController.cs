@@ -2,35 +2,28 @@
 
 /// <summary>
 /// 盾の回転を制御する
+/// 盾の回転円の半径は子オブジェクトの Position X で調整してください
 /// </summary>
 public class ShieldController : MonoBehaviour
 {
     [SerializeField] private float m_shieldMoveSpeed = 2f;
-    [SerializeField] private float m_shieldClamp = 2f;
 
-    private float m_horizontal = 0f;
-    private float m_vertical = 0f;
-    private Vector3 m_ClampPosition = new Vector3();
-    private Vector3 m_InitialPosition = new Vector3();
+    private float rotation
+    {
+        get
+        {
+            Vector2 shieldControl = new Vector2(Input.GetAxis("ShieldHorizontal"), Input.GetAxis("ShieldVertical"));
+            return Vector2.SignedAngle(Vector2.right, shieldControl);
+        }
+    }
 
     private void Start()
     {
-        m_InitialPosition = transform.localPosition;
+        
     }
 
     void Update()
     {
-        m_horizontal = Input.GetAxis("ShieldHorizontal") * Time.deltaTime;
-        m_vertical = Input.GetAxis("ShieldVertical") * Time.deltaTime;
-
-        if (m_horizontal == 0 && m_vertical == 0)
-            transform.localPosition = m_InitialPosition;
-        else
-        {
-            transform.Translate(m_horizontal * m_shieldMoveSpeed, m_vertical * m_shieldMoveSpeed, 0, Space.Self);
-            m_ClampPosition = transform.localPosition - Vector3.zero;
-            var magnitude = Vector3.ClampMagnitude(m_ClampPosition, m_shieldClamp);
-            transform.localPosition = Vector3.zero + magnitude;
-        }
+        transform.localEulerAngles = Vector3.forward * rotation;
     }
 }
