@@ -323,6 +323,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9447a354d197b7b48b2385a087833876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_constrainYMin: 8.18
+  m_constrainYMax: Infinity
   m_target: {fileID: 1581872053}
 --- !u!20 &519420031
 Camera:

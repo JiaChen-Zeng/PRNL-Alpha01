@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-
+    [SerializeField] private float m_constrainYMin = 0;
+    [SerializeField] private float m_constrainYMax = Mathf.Infinity;
     [SerializeField] private Transform m_target;
     private Vector3 mNewPosition = new Vector3();
   
@@ -35,7 +34,7 @@ public class CameraController : MonoBehaviour
     private void SetNewPosition(float x, float y, float z)
     {
         mNewPosition.x = x;
-        mNewPosition.y = Mathf.Clamp(y, 0, Mathf.Infinity);
+        mNewPosition.y = Mathf.Clamp(y, m_constrainYMin, m_constrainYMax);
         mNewPosition.z = z;
         this.transform.position = mNewPosition;
     }
