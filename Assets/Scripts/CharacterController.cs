@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -35,6 +35,11 @@ public class CharacterController : MonoBehaviour
     private bool mCanShieldJump = false;
     private Vector3 mNewPosition = new Vector3();
 
+    /// <summary>
+    /// これで盾の位置調整の状態を取得する。主人公の向きの制御は盾の位置調整の状態によって、主人公の移動ではなく盾の調整で制御されることがあるため。
+    /// </summary>
+    private ShieldController m_sc;
+
     [Header("Events")]
     [Space]
 
@@ -45,6 +50,7 @@ public class CharacterController : MonoBehaviour
 
     private void Awake()
     {
+        m_sc = GetComponentInChildren<ShieldController>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
@@ -105,24 +111,45 @@ public class CharacterController : MonoBehaviour
             // And then smoothing it out and applying it to the character
             m_Rigidbody.velocity = Vector2.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
             // If the input is moving the player right and the player is facing left...
-            if (m_flip)
-            {
-                if (move > 0 && !FacingRight)
-                {
-                    // ... flip the player.
-                    Flip();
-                }
-                // Otherwise if the input is moving the player left and the player is facing right...
-                else if (move < 0 && FacingRight)
-                {
-                    // ... flip the player.
-                    Flip();
-                }
-            }
+            FlipByMovementAndShield(move);
         }
         mNewPosition = m_Rigidbody.position;
         mNewPosition.x = Mathf.Clamp(mNewPosition.x, m_xMinConstraint, m_xMaxConstraint);
         m_Rigidbody.position = mNewPosition;
+    }
+
+    /// <summary>
+    /// 主人公の移動状態と盾の位置調整状態によって主人公を反転させる
+    /// </summary>
+    /// <param name="dx">x 軸移動量</param>
+    private void FlipByMovementAndShield(float dx)
+    {
+        if (!m_flip) return;
+
+        if (m_sc.IsControlling) // プレイヤーが盾の位置を制御しているとき
+        {
+            // 盾の位置によって反転するかを決める
+            if (!m_sc.FacingFront)
+            {
+                Flip();
+                m_sc.Flip();
+            }
+        }
+        else
+        {
+            // 主人公の移動によって反転するかを決める
+            if (dx > 0 && !FacingRight)
+            {
+                // ... flip the player.
+                Flip();
+            }
+            // Otherwise if the input is moving the player left and the player is facing right...
+            else if (dx < 0 && FacingRight)
+            {
+                // ... flip the player.
+                Flip();
+            }
+        }
     }
 
     private void Update()
