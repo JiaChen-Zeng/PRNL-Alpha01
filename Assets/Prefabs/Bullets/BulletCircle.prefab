@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3790334094681839678}
   - component: {fileID: -4764302720929931208}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: BulletCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

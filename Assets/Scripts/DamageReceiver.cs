@@ -10,7 +10,7 @@ public class DamageReceiver : MonoBehaviour
 {
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.LogFormat("<color=red>collided with gameobject = {0}</color>", collision.gameObject.name);
+        Debug.LogFormat("<color=red>{0} collided with gameobject = {1}</color>", name, collision.gameObject.name);
         if (collision.gameObject.layer == LayerMask.NameToLayer("Bullet"))
         {
             EventManager.pInstance.TriggerDamageReceived(collision.collider);
@@ -20,7 +20,7 @@ public class DamageReceiver : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.LogFormat("<color=red>trigger with gameobject = {0}</color>", collision.gameObject.name);
+        Debug.LogFormat("<color=red>{0} trigger with gameobject = {1}</color>", name, collision.gameObject.name);
         if (collision.gameObject.layer == LayerMask.NameToLayer("Bullet"))
         {
             EventManager.pInstance.TriggerDamageReceived(collision);
