@@ -8,6 +8,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: -5588074910946534015, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
+      propertyPath: m_fieldOfView
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -5588074910946534015, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
       propertyPath: m_danmakus.Array.size
       value: 1
       objectReference: {fileID: 0}

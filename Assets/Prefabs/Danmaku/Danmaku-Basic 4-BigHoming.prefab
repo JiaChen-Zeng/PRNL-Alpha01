@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5050937861982320615}
   - component: {fileID: 4262303649200114563}
   m_Layer: 0
-  m_Name: Danmaku-Basic 2-Spread
+  m_Name: Danmaku-Basic 4-BigHoming
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProjectilePrefab: {fileID: 8841699598713729355, guid: 0f551be8e27b097479e5473b72406f5b, type: 3}
-  Scale: 0.3
+  Scale: 0.5
   Color:
     serializedVersion: 2
     key0: {r: 1, g: 1, b: 1, a: 1}
@@ -74,11 +74,11 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
-  TimeToLive: 5
-  CoolOffTime: 2.5
+  TimeToLive: 100
+  CoolOffTime: 4
   AutoFire: 0
   Direction: {x: 0, y: -1}
-  Speed: 5
+  Speed: 3
   MaxSpeed: 100
   RotationSpeed: 0
   CollisionDetection: 1
@@ -126,14 +126,14 @@ MonoBehaviour:
   UseStaticPulse: 0
   GroupCount: 1
   GroupSpacing: 1
-  SpokeCount: 5
+  SpokeCount: 1
   SpokeSpacing: 25
   MirrorPairRotation: 0
   PairGroupDirection: 0
   UseFollowTarget: 1
   Target: {fileID: 0}
-  FollowTargetType: 1
-  FollowIntensity: 0
+  FollowTargetType: 0
+  FollowIntensity: 1
   UseOutlineColorPulse: 0
   OutlinePulseSpeed: 0
   UseOutlineStaticPulse: 0
