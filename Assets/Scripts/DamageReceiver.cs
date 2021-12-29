@@ -8,13 +8,23 @@ using UnityEngine;
 /// </summary>
 public class DamageReceiver : MonoBehaviour
 {
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Bullet"))
+        Debug.LogFormat("<color=red>collided with gameobject = {0}</color>", collision.gameObject.name);
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Bullet"))
         {
-            EventManager.pInstance.TriggerDamageReceived(other);
-            EventManager.pInstance.TriggerDestroyBullet(other);
+            EventManager.pInstance.TriggerDamageReceived(collision.collider);
+            EventManager.pInstance.TriggerDestroyBullet(collision.collider);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.LogFormat("<color=red>trigger with gameobject = {0}</color>", collision.gameObject.name);
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Bullet"))
+        {
+            EventManager.pInstance.TriggerDamageReceived(collision);
+            EventManager.pInstance.TriggerDestroyBullet(collision);
         }
     }
 }

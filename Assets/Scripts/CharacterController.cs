@@ -65,9 +65,14 @@ public class CharacterController : MonoBehaviour
         EventManager.pInstance.OnDamageReceived += OnDamageReceived;
     }
 
-    private void OnDamageReceived(Collider bullet)
+    private void OnDamageReceived(Collider2D bullet)
     {
-        //reduce the hit points
+        //DoDamage(damage from the bullet)
+    }
+
+    public void DoDamage(float damage)
+    {
+        //reduce the hitpoints
     }
 
     private void OnShieldCollision(Collider2D collider, bool enter)

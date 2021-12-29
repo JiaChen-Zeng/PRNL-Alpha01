@@ -10,7 +10,7 @@ public class ShieldEventHandler : MonoBehaviour
         EventManager.pInstance.OnDamageReceived += OnDamageReceived;
     }
 
-    private void OnDamageReceived(Collider bullet)
+    private void OnDamageReceived(Collider2D bullet)
     {
         //substract the shield capacity and rest reduce the hitpoints
     }

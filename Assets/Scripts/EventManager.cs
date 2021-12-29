@@ -24,19 +24,19 @@ public class EventManager : MonoBehaviour
             OnShieldCollision.Invoke(collider, enter);
     }
 
-    public delegate void DamageReceived(Collider bullet);
+    public delegate void DamageReceived(Collider2D bullet);
     public event DamageReceived OnDamageReceived;
 
-    public void TriggerDamageReceived(Collider bullet)
+    public void TriggerDamageReceived(Collider2D bullet)
     {
         if (OnDamageReceived != null)
             OnDamageReceived.Invoke(bullet);
     }
 
-    public delegate void DestroyBullet(Collider bullet);
+    public delegate void DestroyBullet(Collider2D bullet);
     public event DestroyBullet OnDestroyBullet;
 
-    public void TriggerDestroyBullet(Collider bullet)
+    public void TriggerDestroyBullet(Collider2D bullet)
     {
         if (OnDestroyBullet != null)
             OnDestroyBullet.Invoke(bullet);
