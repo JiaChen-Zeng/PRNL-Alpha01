@@ -127,4 +127,13 @@ public class EnemyAttackController : MonoBehaviour
     {
         StopDanmaku();
     }
+
+    /// <summary>
+    /// 敵の視野をエディター内で表示させる用
+    /// </summary>
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, m_fieldOfView);
+    }
 }
