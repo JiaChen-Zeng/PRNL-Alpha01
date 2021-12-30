@@ -1,7 +1,12 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    /// <summary>
+    /// エディター内で表示するマップの横幅
+    /// </summary>
+    private const float k_mapWidth = 11.24f;
+
     [SerializeField] private float m_constrainYMin = 0;
     [SerializeField] private float m_constrainYMax = Mathf.Infinity;
     [SerializeField] private Transform m_target;
@@ -47,5 +52,14 @@ public class CameraController : MonoBehaviour
         {
             SetNewPosition(this.transform.position.x, m_target.position.y, this.transform.position.z);
         }
+    }
+
+    /// <summary>
+    /// エディター内でマップの境界線を表示させる
+    /// </summary>
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireCube(transform.position, new Vector3(k_mapWidth, int.MaxValue, 0));
     }
 }
