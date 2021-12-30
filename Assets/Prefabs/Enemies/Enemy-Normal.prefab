@@ -28,6 +28,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy-Normal
       objectReference: {fileID: 0}
+    - target: {fileID: 9121175150017723988, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
+      propertyPath: m_Mass
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 9121175150017723990, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
       propertyPath: m_RootOrder
       value: 0
