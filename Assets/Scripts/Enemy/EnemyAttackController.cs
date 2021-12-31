@@ -134,6 +134,7 @@ public class EnemyAttackController : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, m_fieldOfView);
+        if (m_isBoss) Gizmos.DrawWireCube(m_intrinsicArea.transform.position, m_intrinsicArea.transform.localScale);
+        else Gizmos.DrawWireSphere(transform.position, m_fieldOfView);
     }
 }
