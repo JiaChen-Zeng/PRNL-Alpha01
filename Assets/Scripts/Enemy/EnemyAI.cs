@@ -5,10 +5,8 @@
 /// </summary>
 public class EnemyAI : MonoBehaviour
 {
-    [HideInInspector]
-    public EnemyIdleState IdleState;
-    [HideInInspector]
-    public EnemyBattleState BattleState;
+    [HideInInspector] public EnemyIdleState IdleState;
+    [HideInInspector] public EnemyBattleState BattleState;
 
     private EnemyState currentState;
 

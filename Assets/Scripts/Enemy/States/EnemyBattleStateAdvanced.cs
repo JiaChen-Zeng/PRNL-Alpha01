@@ -1,6 +1,8 @@
 ﻿using BulletHell;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Linq;
+using System.Threading;
 using UnityEngine;
 
 /// <summary>
@@ -23,7 +25,7 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
     /// 現在発射している弾幕パターンの添え字。-1 は現在発射していないことを意味する。
     /// </summary>
     private int currentDanmakuIndex = -1;
-    private IEnumerator currentDanmakuRoutine;
+    private CancellationTokenSource danmakuCts;
 
     protected override void InitDanmakus()
     {
@@ -41,26 +43,28 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
         }
     }
 
+    protected async override void StartDanmaku()
+    {
+        danmakuCts = new CancellationTokenSource();
+        await SwitchDanmakuContinuously(danmakuCts.Token);
+    }
+
     protected override void StopDanmaku()
     {
+        danmakuCts.Cancel();
         SetDanmakuEnabled(currentDanmakuIndex, false);
         currentDanmakuIndex = -1;
-        StopCoroutine(currentDanmakuRoutine);
     }
 
-    protected override void StartDanmaku()
-    {
-        currentDanmakuRoutine = DanmakuRoutine();
-        StartCoroutine(currentDanmakuRoutine);
-    }
-
-    private IEnumerator DanmakuRoutine()
+    private async UniTask SwitchDanmakuContinuously(CancellationToken token)
     {
         currentDanmakuIndex = 0;
         SetDanmakuEnabled(currentDanmakuIndex, true);
         while (true)
         {
-            yield return new WaitForSeconds(danmakuDurations[currentDanmakuIndex]);
+            await UniTask.Delay(TimeSpan.FromSeconds(danmakuDurations[currentDanmakuIndex]));
+            if (token.IsCancellationRequested) return;
+
             SetDanmakuEnabled(currentDanmakuIndex, false);
             currentDanmakuIndex = (currentDanmakuIndex + 1) % danmakuList.Length;
             SetDanmakuEnabled(currentDanmakuIndex, true);
