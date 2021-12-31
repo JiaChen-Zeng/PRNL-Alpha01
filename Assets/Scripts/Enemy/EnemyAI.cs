@@ -29,7 +29,11 @@ public abstract class EnemyAI : MonoBehaviour
     /// <summary>
     /// 敵の視野をエディター内で表示させる用
     /// </summary>
-    protected abstract void OnDrawGizmosSelected();
+    protected virtual void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+    }
+
 
     protected void Awake()
     {

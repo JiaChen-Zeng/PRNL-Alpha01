@@ -16,7 +16,7 @@ public class EnemyNormalAI : EnemyAI
 
     protected override void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        base.OnDrawGizmosSelected();
         Gizmos.DrawWireSphere(transform.position, m_fieldOfView);
     }
 }

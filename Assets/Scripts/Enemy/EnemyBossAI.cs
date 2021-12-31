@@ -17,7 +17,7 @@ public class EnemyBossAI : EnemyAI
 
     protected override void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
+        base.OnDrawGizmosSelected();
         Gizmos.DrawWireCube(m_intrinsicArea.transform.position, m_intrinsicArea.transform.localScale);
     }
 }
