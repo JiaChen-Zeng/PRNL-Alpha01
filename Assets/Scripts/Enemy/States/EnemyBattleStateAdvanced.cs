@@ -51,12 +51,7 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
     protected override void StartDanmaku()
     {
         currentDanmakuRoutine = DanmakuRoutine();
-        if (danmakuDurations.Length > 0) StartCoroutine(currentDanmakuRoutine);
-        else
-        {
-            currentDanmakuIndex = 0;
-            SetDanmakuEnabled(currentDanmakuIndex, true);
-        }
+        StartCoroutine(currentDanmakuRoutine);
     }
 
     private IEnumerator DanmakuRoutine()
