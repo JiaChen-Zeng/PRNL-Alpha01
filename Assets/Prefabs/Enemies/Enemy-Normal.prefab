@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5588074910946534015
+--- !u!114 &5073954600328844882
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,14 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 3997292227611762342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 165a72fc70d44a04e90be36c463860fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 358c33ac421a17743bc0dcc42f019b5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_isBoss: 0
-  m_intrinsicArea: {fileID: 0}
-  m_fieldOfView: 5
-  m_danmakuList: []
-  m_danmakuDurations: []
+  fieldOfView: 8
+--- !u!114 &6037954882203349784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3997292227611762342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895b8245c64477f45a06c7266ff3ee6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  danmaku: {fileID: 0}
 --- !u!1001 &5327143058756051084
 PrefabInstance:
   m_ObjectHideFlags: 0

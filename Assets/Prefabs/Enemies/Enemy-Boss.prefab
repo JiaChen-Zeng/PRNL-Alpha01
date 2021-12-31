@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6646447631796335616
+--- !u!114 &5816427450990284712
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,12 +9,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 3997292227611762342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c423a39a1ce0b3b43b8272175c345c2a, type: 3}
+  m_Script: {fileID: 11500000, guid: 763a41a12bcf36940804a14daa694e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_danmakuList: []
-  m_danmakuDurations: []
-  m_intrinsicArea: {fileID: 0}
+  intrinsicArea: {fileID: 0}
+--- !u!114 &4187958406379602424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3997292227611762342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4ea58558e47d0b43a9af3132098e698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  danmakuList: []
+  danmakuDurations: []
 --- !u!1001 &5327143058756051084
 PrefabInstance:
   m_ObjectHideFlags: 0
