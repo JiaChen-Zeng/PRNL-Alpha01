@@ -6,24 +6,8 @@ using UnityEngine;
 /// <summary>
 /// 敵の視野に入ってから攻撃を始めることを制御する
 /// </summary>
-public class EnemyAttackController : MonoBehaviour
+public abstract class EnemyAI : MonoBehaviour
 {
-    /// <summary>
-    /// 敵の種類によって攻撃の AI が違う
-    /// </summary>
-    [SerializeField] private bool m_isBoss;
-
-    /// <summary>
-    /// ボスの固有領域
-    /// </summary>
-    [SerializeField] private EnemyBossFOV m_intrinsicArea;
-
-    /// <summary>
-    /// 敵の視野半径
-    /// </summary>
-    [SerializeField] private float m_fieldOfView = 5;
-    private GameObject m_fov;
-
     /// <summary>
     /// 弾幕パターンが事前に設定しておいたプレハブを置くリスト
     /// </summary>
@@ -40,24 +24,22 @@ public class EnemyAttackController : MonoBehaviour
     private int m_currentDanmakuIndex = -1;
     private IEnumerator m_currentDanmakuRoutine;
 
-    private void Awake()
+    protected abstract GameObject GetFovObject();
+
+    /// <summary>
+    /// 敵の視野をエディター内で表示させる用
+    /// </summary>
+    protected abstract void OnDrawGizmosSelected();
+
+    protected void Awake()
     {
-        if (m_isBoss) InitBossFOV();
-        else InitNormalFOV();
+        InitFOV();
         InitDanmakus();
     }
-
-    private void InitBossFOV()
+    
+    private void InitFOV()
     {
-        m_intrinsicArea.OnEnterFOV.AddListener(OnEnterFOV);
-        m_intrinsicArea.OnExitFOV.AddListener(OnExitFOV);
-    }
-
-    private void InitNormalFOV()
-    {
-        m_fov = Instantiate(Resources.Load<GameObject>("Prefabs/EnemyNormalFOV"), transform);
-        var fov = m_fov.GetComponent<EnemyNormalFOV>();
-        fov.Radius = m_fieldOfView;
+        var fov = GetFovObject().GetComponent<EnemyFOV>();
         fov.OnEnterFOV.AddListener(OnEnterFOV);
         fov.OnExitFOV.AddListener(OnExitFOV);
     }
@@ -126,15 +108,5 @@ public class EnemyAttackController : MonoBehaviour
     private void OnExitFOV(GameObject player)
     {
         StopDanmaku();
-    }
-
-    /// <summary>
-    /// 敵の視野をエディター内で表示させる用
-    /// </summary>
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        if (m_isBoss) Gizmos.DrawWireCube(m_intrinsicArea.transform.position, m_intrinsicArea.transform.localScale);
-        else Gizmos.DrawWireSphere(transform.position, m_fieldOfView);
     }
 }
