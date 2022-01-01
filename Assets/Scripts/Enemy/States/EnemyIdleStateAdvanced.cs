@@ -17,6 +17,8 @@ public class EnemyIdleStateAdvanced : EnemyIdleState
 
     protected override void OnDrawGizmosSelected()
     {
+        if (!intrinsicArea) return;
+
         base.OnDrawGizmosSelected();
         Gizmos.DrawWireCube(intrinsicArea.transform.position, intrinsicArea.transform.localScale);
     }
