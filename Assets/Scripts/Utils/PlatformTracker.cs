@@ -4,26 +4,56 @@ using UnityEngine;
 
 public class PlatformTracker : MonoBehaviour
 {
-    private HashSet<GameObject> platforms = new HashSet<GameObject>();
-
-    public bool HasPlatform { get => platforms.Count != 0; }
-
-    public GameObject GetRandomPlatform()
+    private static IEnumerable<Collider2D> GetOverlapPlatforms(Collider2D collider)
     {
-        return platforms.ElementAt(Random.Range(0, platforms.Count));
+        var platforms = new List<Collider2D>();
+
+        var filter = new ContactFilter2D();
+        filter.SetLayerMask(LayerMask.GetMask("Ground"));
+
+        collider.OverlapCollider(filter, platforms);
+        return platforms.Where(p => p.CompareTag("Platform"));
     }
 
-    private void OnTriggerEnter2D(Collider2D platform)
+    private static GameObject GetRandomPlatformAbove(IEnumerable<GameObject> platforms, Transform transform)
     {
-        if (!platform.CompareTag("Platform")) return;
-
-        platforms.Add(platform.gameObject);
+        var platformsAbove = platforms.Where(p => p.transform.position.y > transform.position.y);
+        var count = platformsAbove.Count();
+        return count == 0 ? null : platformsAbove.ElementAt(Random.Range(0, count));
     }
 
-    private void OnTriggerExit2D(Collider2D platform)
+    private static GameObject GetHighestPlatform(IEnumerable<GameObject> platforms)
     {
-        if (!platform.CompareTag("Platform")) return;
+        return platforms.OrderByDescending(p => p.transform.position.y).First();
+    }
 
-        platforms.Remove(platform.gameObject);
+    /// <summary>
+    /// 主人公をリードできるプラットフォームを一つ選ぶ
+    /// </summary>
+    /// <returns>主人公をリードできるようなプラットフォーム</returns>
+    public GameObject SelectLeadPlatform(GameObject enemy, Collider2D intrinsicArea)
+    {
+        var platfromsInArea = GetPlatformsInArea(intrinsicArea);
+        return IsLeadingTooFar(enemy)
+            ? GetHighestPlatform(platfromsInArea) // 下のプラットフォームに戻るができるだけ高い位置を取る
+            : GetRandomPlatformAbove(platfromsInArea, enemy.transform); // TODO: この `enemy.transform` を敵が立っているプラットフォームの `transform` にする。今のままでは立っているプラットフォームも選ばれる。
+    }
+
+    private bool IsLeadingTooFar(GameObject gameObject)
+    {
+        var colliders = new List<Collider2D>();
+        GetComponent<Collider2D>().OverlapCollider(new ContactFilter2D(), colliders);
+        return !colliders.Contains(gameObject.GetComponent<Collider2D>())
+            && transform.position.y < gameObject.transform.position.y;
+    }
+
+    private IEnumerable<Collider2D> GetPlatforms()
+    {
+        return GetOverlapPlatforms(GetComponent<Collider2D>());
+    }
+
+    private IEnumerable<GameObject> GetPlatformsInArea(Collider2D intrinsicArea)
+    {
+        return GetPlatforms().Intersect(GetOverlapPlatforms(intrinsicArea)).Select(p => p.gameObject);
     }
 }

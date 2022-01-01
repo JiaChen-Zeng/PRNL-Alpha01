@@ -10,10 +10,7 @@ public class EnemyIdleStateAdvanced : EnemyIdleState
     /// </summary>
     [SerializeField] private EnemyBossFOV intrinsicArea;
 
-    protected override GameObject GetFovObject()
-    {
-        return intrinsicArea.gameObject;
-    }
+    public override GameObject FovObject => intrinsicArea.gameObject;
 
     protected override void OnDrawGizmosSelected()
     {

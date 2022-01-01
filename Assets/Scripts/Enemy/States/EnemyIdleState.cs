@@ -2,7 +2,7 @@
 
 public abstract class EnemyIdleState : EnemyState
 {
-    protected abstract GameObject GetFovObject();
+    public abstract GameObject FovObject { get; }
 
     protected override void Awake()
     {
@@ -12,7 +12,7 @@ public abstract class EnemyIdleState : EnemyState
 
     private void InitFOV()
     {
-        var fov = GetFovObject().GetComponent<EnemyFOV>();
+        var fov = FovObject.GetComponent<EnemyFOV>();
         fov.OnEnterFOV.AddListener(OnEnterFOV);
         fov.OnExitFOV.AddListener(OnExitFOV);
     }

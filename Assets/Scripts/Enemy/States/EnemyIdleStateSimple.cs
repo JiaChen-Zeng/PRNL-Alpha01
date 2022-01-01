@@ -9,12 +9,18 @@ public class EnemyIdleStateSimple : EnemyIdleState
     /// 敵の視野半径
     /// </summary>
     [SerializeField] private float fieldOfView = 5;
+    private GameObject fovObject;
 
-    protected override GameObject GetFovObject()
+    public override GameObject FovObject
     {
-        var fovObject = Instantiate(Resources.Load<GameObject>("Prefabs/EnemyNormalFOV"), transform);
-        fovObject.GetComponent<EnemyNormalFOV>().Radius = fieldOfView;
-        return fovObject;
+        get
+        {
+            if (fovObject) return fovObject;
+
+            fovObject = Instantiate(Resources.Load<GameObject>("Prefabs/EnemyNormalFOV"), transform);
+            fovObject.GetComponent<EnemyNormalFOV>().Radius = fieldOfView;
+            return fovObject;
+        }
     }
 
     protected override void OnDrawGizmosSelected()

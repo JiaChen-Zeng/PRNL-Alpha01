@@ -31,14 +31,6 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
     [SerializeField] private float chaseInterval = 3;
     private CancellationTokenSource chaseCts;
 
-    private PlatformTracker platformTracker;
-
-    protected override void Awake()
-    {
-        base.Awake();
-        platformTracker = GameObject.Find("PlayerLeadPlatformTracker").GetComponent<PlatformTracker>();
-    }
-
     public override void Enter()
     {
         base.Enter();
@@ -107,6 +99,8 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
 
     #endregion
 
+    #region 追撃
+
     private async void StartChasePlayer()
     {
         chaseCts = new CancellationTokenSource();
@@ -133,9 +127,9 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
     /// </summary>
     private void JumpToLeadPlayer()
     {
-        if (!platformTracker.HasPlatform) return;
-
-        GameObject platform = platformTracker.GetRandomPlatform(); // ランダムに主人公から上のプラットフォームを取得
+        var platformTracker = GameObject.Find("PlayerLeadPlatformTracker").GetComponent<PlatformTracker>();
+        var platform = platformTracker.SelectLeadPlatform(gameObject, ai.IdleState.FovObject.GetComponent<Collider2D>());
+        if (!platform) return;
 
         // TEMP: 簡単にプラットフォームまで移動させる。後でちゃんとジャンプするように変える必要がある。
         var pos = platform.transform.position;
@@ -144,4 +138,6 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
         pos.x += UnityEngine.Random.Range(-pWidth / 2, pWidth / 2);
         transform.DOMove(pos, 1);
     }
+
+    #endregion
 }
