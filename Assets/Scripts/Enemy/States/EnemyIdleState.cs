@@ -19,13 +19,13 @@ public abstract class EnemyIdleState : EnemyState
 
     private void OnEnterFOV(GameObject player)
     {
-        ai.BattleState.SetDanmakuTarget(player.transform);
-        ai.State = ai.BattleState;
+        Ai.BattleState.SetDanmakuTarget(player.transform);
+        Ai.State = Ai.BattleState;
     }
 
     private void OnExitFOV(GameObject player)
     {
-        ai.State = this;
+        Ai.State = this;
     }
 
     /// <summary>

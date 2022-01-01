@@ -2,11 +2,11 @@ using UnityEngine;
 
 public abstract class EnemyState : MonoBehaviour
 {
-    protected EnemyAI ai;
+    public EnemyAI Ai { get; private set; }
 
     protected virtual void Awake()
     {
-        ai = GetComponent<EnemyAI>();
+        Ai = GetComponent<EnemyAI>();
     }
 
     public virtual void Enter() { }
