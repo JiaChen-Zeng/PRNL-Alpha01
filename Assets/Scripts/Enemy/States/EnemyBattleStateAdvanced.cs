@@ -54,13 +54,15 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
 
     protected override void InitDanmakus()
     {
-        danmakuList = danmakuList.Select(danmaku => Instantiate(danmaku, transform)).ToArray();
+        danmakuList = danmakuList.Select(d => d ? Instantiate(d, transform) : null).ToArray();
     }
 
     public override void SetDanmakuTarget(Transform playerTransform)
     {
         foreach (var danmaku in danmakuList)
         {
+            if (!danmaku) continue;
+
             foreach (var emitter in danmaku.GetComponents<ProjectileEmitterAdvanced>())
             {
                 emitter.Target = playerTransform;
@@ -98,6 +100,8 @@ public class EnemyBattleStateAdvanced : EnemyBattleState
 
     private void SetDanmakuEnabled(int index, bool enabled)
     {
+        if (!danmakuList[index]) return;
+
         foreach (var emitter in danmakuList[index].GetComponents<ProjectileEmitterAdvanced>())
         {
             emitter.AutoFire = enabled;
