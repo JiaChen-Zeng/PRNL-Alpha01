@@ -5285,7 +5285,7 @@ PrefabInstance:
       objectReference: {fileID: 2062231089}
     - target: {fileID: 9199376644236520356, guid: 873a50efdbe794b408ad7b3337bc6535, type: 3}
       propertyPath: m_Name
-      value: Enemy-Boss-1
+      value: Enemy-Boss-2-DarkHero
       objectReference: {fileID: 0}
     - target: {fileID: 9199376644236520408, guid: 873a50efdbe794b408ad7b3337bc6535, type: 3}
       propertyPath: m_RootOrder
