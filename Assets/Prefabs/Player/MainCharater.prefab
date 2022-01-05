@@ -355,22 +355,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30ceab2c55c4c9e4ab8992e3174c0fd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 25
-  m_ShieldJumpForce: 38
-  m_moveSpeed: 10
-  m_airJumpMaxCount: 1
-  m_fallMultiplier: 2
-  m_MovementSmoothing: 0.05
-  m_AirControl: 1
-  m_WhatIsGround:
+  jumpForce: 25
+  shieldJumpForce: 38
+  moveSpeed: 10
+  airJumpMaxCount: 1
+  fallMultiplier: 2
+  movementSmoothing: 0.05
+  airControl: 1
+  whatIsGround:
     serializedVersion: 2
     m_Bits: 64
-  m_GroundCheck: {fileID: 7425128599701595338}
-  m_shieldJumpCheck: {fileID: 283079167}
-  m_xMinConstraint: -5.3
-  m_xMaxConstraint: 5.3
-  m_flip: 1
-  m_hitPoints: 0
+  shieldJumpCheck: {fileID: 283079167}
+  xMinConstraint: -5.3
+  xMaxConstraint: 5.3
+  flip: 1
+  hitPoints: 0
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []

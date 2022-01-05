@@ -13,11 +13,9 @@ public class CharacterController : MonoBehaviour
     [Range(0, .3f)] [SerializeField] private float movementSmoothing = .05f;  // How much to smooth out the movement
     [SerializeField] private bool airControl = false;                         // Whether or not a player can steer while jumping;
     [SerializeField] private LayerMask whatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private Transform groundCheck;                           // A position marking where to check if the player is grounded.
     [SerializeField] private Transform shieldJumpCheck;
     [SerializeField] private float xMinConstraint;
     [SerializeField] private float xMaxConstraint;
-    [SerializeField] private bool flip = true;
 
     [Header("Stats")]
     [SerializeField] private float hitPoints;
@@ -103,8 +101,6 @@ public class CharacterController : MonoBehaviour
     /// <param name="dx">x 軸移動量</param>
     private void FlipByMovementAndShield(float dx)
     {
-        if (!flip) return;
-
         if (sc.IsControlling) // プレイヤーが盾の位置を制御しているとき
         {
             // 盾の位置によって反転するかを決める
