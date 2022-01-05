@@ -364,7 +364,7 @@ MonoBehaviour:
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 119
+    m_Bits: 64
   m_GroundCheck: {fileID: 7425128599701595338}
   m_shieldJumpCheck: {fileID: 283079167}
   m_xMinConstraint: -5.3
