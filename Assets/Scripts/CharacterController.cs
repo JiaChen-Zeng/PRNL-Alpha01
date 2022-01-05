@@ -3,41 +3,42 @@ using UnityEngine.Events;
 
 public class CharacterController : MonoBehaviour
 {
-    [SerializeField] private float m_JumpForce = 400f;                          // Amount of force added when the player jumps.
-    [SerializeField] private float m_ShieldJumpForce = 400f;                          // Amount of force added when the player jumps.
-    [SerializeField] private float m_moveSpeed = 10f;                          // Amount of force added when the player jumps.
-    [SerializeField] private int m_airJumpMaxCount = 1;
-    [Range(0, 10)] [SerializeField] private float m_fallMultiplier = 2f;         
-    [Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;  // How much to smooth out the movement
-    [SerializeField] private bool m_AirControl = false;                         // Whether or not a player can steer while jumping;
-    [SerializeField] private LayerMask m_WhatIsGround;                          // A mask determining what is ground to the character
-    [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
-    [SerializeField] private Transform m_shieldJumpCheck;
-    [SerializeField] private float m_xMinConstraint;
-    [SerializeField] private float m_xMaxConstraint;
-    [SerializeField] private bool m_flip = true;
+    const float GROUNDED_RADIUS = .2f; // Radius of the overlap circle to determine if grounded
+
+    [SerializeField] private float jumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float shieldJumpForce = 400f;                          // Amount of force added when the player jumps.
+    [SerializeField] private float moveSpeed = 10f;                          // Amount of force added when the player jumps.
+    [SerializeField] private int airJumpMaxCount = 1;
+    [Range(0, 10)] [SerializeField] private float fallMultiplier = 2f;         
+    [Range(0, .3f)] [SerializeField] private float movementSmoothing = .05f;  // How much to smooth out the movement
+    [SerializeField] private bool airControl = false;                         // Whether or not a player can steer while jumping;
+    [SerializeField] private LayerMask whatIsGround;                          // A mask determining what is ground to the character
+    [SerializeField] private Transform groundCheck;                           // A position marking where to check if the player is grounded.
+    [SerializeField] private Transform shieldJumpCheck;
+    [SerializeField] private float xMinConstraint;
+    [SerializeField] private float xMaxConstraint;
+    [SerializeField] private bool flip = true;
 
     [Header("Stats")]
-    [SerializeField] private float m_hitPoints;
+    [SerializeField] private float hitPoints;
     public bool FacingRight { get; private set; } = true;
 
-    private Rigidbody2D m_Rigidbody;
-    private Vector2 m_Velocity = Vector3.zero;
+    private Rigidbody2D rb;
+    private Vector2 velocity = Vector3.zero;
 
-    const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool grounded;            // Whether or not the player is grounded.
     //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 
-    private int mAirJumpCount = 0;
-    private bool mCanShieldJump = false;
-    private bool canAirJump { get => mAirJumpCount < m_airJumpMaxCount; }
+    private int airJumpCount = 0;
+    private bool canShieldJump = false;
+    private bool canAirJump { get => airJumpCount < airJumpMaxCount; }
 
-    private float mHorizontalMove = 0f;
+    private float horizontalMove = 0f;
 
     /// <summary>
     /// これで盾の位置調整の状態を取得する。主人公の向きの制御は盾の位置調整の状態によって、主人公の移動ではなく盾の調整で制御されることがあるため。
     /// </summary>
-    private ShieldController m_sc;
+    private ShieldController sc;
 
     [Header("Events")]
     [Space]
@@ -49,8 +50,8 @@ public class CharacterController : MonoBehaviour
 
     private void Awake()
     {
-        m_sc = GetComponentInChildren<ShieldController>();
-        m_Rigidbody = GetComponent<Rigidbody2D>();
+        sc = GetComponentInChildren<ShieldController>();
+        rb = GetComponent<Rigidbody2D>();
 
         OnLandEvent ??= new UnityEvent();
     }
@@ -63,13 +64,13 @@ public class CharacterController : MonoBehaviour
 
     private void Update()
     {
-        mHorizontalMove = Input.GetAxisRaw("Horizontal");
+        horizontalMove = Input.GetAxisRaw("Horizontal");
         HandleJump();
     }
 
     private void FixedUpdate()
     {
-        Move(mHorizontalMove);
+        Move(horizontalMove);
     }
 
     private void OnDestroy()
@@ -81,19 +82,19 @@ public class CharacterController : MonoBehaviour
     public void Move(float move)
     {
         //only control the player if grounded or airControl is turned on
-        if (grounded || m_AirControl)
+        if (grounded || airControl)
         {
             // Move the character by finding the target velocity
-            Vector2 targetVelocity = new Vector2(move * m_moveSpeed, m_Rigidbody.velocity.y);
+            Vector2 targetVelocity = new Vector2(move * moveSpeed, rb.velocity.y);
             // And then smoothing it out and applying it to the character
-            m_Rigidbody.velocity = Vector2.SmoothDamp(m_Rigidbody.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+            rb.velocity = Vector2.SmoothDamp(rb.velocity, targetVelocity, ref velocity, movementSmoothing);
             // If the input is moving the player right and the player is facing left...
             FlipByMovementAndShield(move);
         }
-        var mNewPosition = new Vector3();
-        mNewPosition = m_Rigidbody.position;
-        mNewPosition.x = Mathf.Clamp(mNewPosition.x, m_xMinConstraint, m_xMaxConstraint);
-        m_Rigidbody.position = mNewPosition;
+        var newPosition = new Vector3();
+        newPosition = rb.position;
+        newPosition.x = Mathf.Clamp(newPosition.x, xMinConstraint, xMaxConstraint);
+        rb.position = newPosition;
     }
 
     /// <summary>
@@ -102,15 +103,15 @@ public class CharacterController : MonoBehaviour
     /// <param name="dx">x 軸移動量</param>
     private void FlipByMovementAndShield(float dx)
     {
-        if (!m_flip) return;
+        if (!flip) return;
 
-        if (m_sc.IsControlling) // プレイヤーが盾の位置を制御しているとき
+        if (sc.IsControlling) // プレイヤーが盾の位置を制御しているとき
         {
             // 盾の位置によって反転するかを決める
-            if (!m_sc.FacingFront)
+            if (!sc.FacingFront)
             {
                 Flip();
-                m_sc.Flip();
+                sc.Flip();
             }
         }
         else
@@ -144,7 +145,7 @@ public class CharacterController : MonoBehaviour
     private void HandleJump()
     {
         ShieldJumpCheck();
-        if (grounded) mAirJumpCount = 0;
+        if (grounded) airJumpCount = 0;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -153,7 +154,7 @@ public class CharacterController : MonoBehaviour
                 Debug.Log("DoJump");
                 DoJump();
             }
-            else if (mCanShieldJump)
+            else if (canShieldJump)
             {
                 Debug.Log("DoShieldJump");
                 DoShieldJump();
@@ -168,26 +169,26 @@ public class CharacterController : MonoBehaviour
 
     private void DoJump()
     {
-        m_Rigidbody.velocity = Vector3.up * m_JumpForce;
+        rb.velocity = Vector3.up * jumpForce;
     }
     private void DoAirJump()
     {
         DoJump();
-        mAirJumpCount++;
+        airJumpCount++;
     }
 
     private void DoShieldJump()
     {
-        m_Rigidbody.velocity = Vector3.up * m_ShieldJumpForce;
+        rb.velocity = Vector3.up * shieldJumpForce;
     }
 
     private void ShieldJumpCheck()
     {
-        if (!grounded && m_Rigidbody.velocity.y < 0)
+        if (!grounded && rb.velocity.y < 0)
         {
-            mCanShieldJump = Physics2D.OverlapCircle(m_shieldJumpCheck.position, k_GroundedRadius, m_WhatIsGround);
+            canShieldJump = Physics2D.OverlapCircle(shieldJumpCheck.position, GROUNDED_RADIUS, whatIsGround);
         }
-        else mCanShieldJump = false;
+        else canShieldJump = false;
     }
 
     public void DoDamage(float damage)
@@ -226,8 +227,7 @@ public class CharacterController : MonoBehaviour
             //    DoShieldJump();
             //}
         }
-        else
-            mCanShieldJump = false;
+        else canShieldJump = false;
         //Debug.LogFormat("On enter = {0}", enter);
     }
 
@@ -235,6 +235,6 @@ public class CharacterController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(m_shieldJumpCheck.position, k_GroundedRadius);
+        Gizmos.DrawWireSphere(shieldJumpCheck.position, GROUNDED_RADIUS);
     }
 }
