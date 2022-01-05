@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterController : MonoBehaviour
@@ -19,16 +20,20 @@ public class CharacterController : MonoBehaviour
 
     [Header("Stats")]
     [SerializeField] private float m_hitPoints;
+    public bool FacingRight { get; private set; } = true;
+
+    private Rigidbody2D m_Rigidbody;
+    private Vector2 m_Velocity = Vector3.zero;
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
     private bool m_Grounded;            // Whether or not the player is grounded.
     //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
-    private Rigidbody2D m_Rigidbody;
-    public bool FacingRight { get; private set; } = true;
-    private Vector2 m_Velocity = Vector3.zero;
+
     private int mAirJumpCount = 0;
-    private float mHorizontalMove = 0f;
     private bool mCanShieldJump = false;
+    private bool canAirJump { get => mAirJumpCount < m_airJumpMaxCount; }
+
+    private float mHorizontalMove = 0f;
     private Vector3 mNewPosition = new Vector3();
 
     /// <summary>
@@ -64,38 +69,13 @@ public class CharacterController : MonoBehaviour
     private void Update()
     {
         mHorizontalMove = Input.GetAxisRaw("Horizontal");
-        ShieldJumpCheck();
-        if (m_Grounded)
-        {
-            mAirJumpCount = 0;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && m_Grounded)
-        {
-            m_Rigidbody.velocity = Vector3.up * m_JumpForce;
-            Debug.Log("#1");
-        }
-        else if (mCanShieldJump && Input.GetKeyDown(KeyCode.Space))
-        {
-            DoShieldJump();
-            Debug.Log("#2");
-        }
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Debug.Log("#3");
-            if (mAirJumpCount < m_airJumpMaxCount)
-            {
-                m_Rigidbody.velocity = Vector3.up * m_JumpForce;
-                mAirJumpCount++;
-            }
-        }
+        HandleJump();
     }
 
     private void FixedUpdate()
     {
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
-
 
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
@@ -175,6 +155,41 @@ public class CharacterController : MonoBehaviour
         transform.localScale = theScale;
     }
 
+    private void HandleJump()
+    {
+        ShieldJumpCheck();
+        if (m_Grounded) mAirJumpCount = 0;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (m_Grounded)
+            {
+                Debug.Log("DoJump");
+                DoJump();
+            }
+            else if (mCanShieldJump)
+            {
+                Debug.Log("DoShieldJump");
+                DoShieldJump();
+            }
+            else if (canAirJump)
+            {
+                Debug.Log("DoAirJump");
+                DoAirJump();
+            }
+        }
+    }
+
+    private void DoJump()
+    {
+        m_Rigidbody.velocity = Vector3.up * m_JumpForce;
+    }
+    private void DoAirJump()
+    {
+        DoJump();
+        mAirJumpCount++;
+    }
+
     private void DoShieldJump()
     {
         m_Rigidbody.velocity = Vector3.up * m_ShieldJumpForce;
@@ -187,10 +202,7 @@ public class CharacterController : MonoBehaviour
         {
             mCanShieldJump = Physics2D.OverlapCircle(m_shieldJumpCheck.position, k_GroundedRadius, m_WhatIsGround);
         }
-        else
-            mCanShieldJump = false;
-
-
+        else mCanShieldJump = false;
     }
 
     public void DoDamage(float damage)
