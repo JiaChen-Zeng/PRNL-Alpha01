@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-
 
 public class CharacterController : MonoBehaviour
 {
@@ -27,8 +24,7 @@ public class CharacterController : MonoBehaviour
     private bool m_Grounded;            // Whether or not the player is grounded.
     //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
     private Rigidbody2D m_Rigidbody;
-    private bool m_FacingRight = true;  // For determining which way the player is currently facing.
-    public bool FacingRight { get => m_FacingRight; private set => m_FacingRight = value; }
+    public bool FacingRight { get; private set; } = true;
     private Vector2 m_Velocity = Vector3.zero;
     private int mAirJumpCount = 0;
     private float mHorizontalMove = 0f;
@@ -65,28 +61,34 @@ public class CharacterController : MonoBehaviour
         EventManager.pInstance.OnDamageReceived += OnDamageReceived;
     }
 
-    private void OnDamageReceived(Collider2D bullet)
+    private void Update()
     {
-        //DoDamage(damage from the bullet)
-    }
-
-    public void DoDamage(float damage)
-    {
-        //reduce the hitpoints
-    }
-
-    private void OnShieldCollision(Collider2D collider, bool enter)
-    {
-        if (collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        mHorizontalMove = Input.GetAxisRaw("Horizontal");
+        ShieldJumpCheck();
+        if (m_Grounded)
         {
-            //if(enter && collider)
-            //{
-            //    DoShieldJump();
-            //}
+            mAirJumpCount = 0;
         }
-        else
-            mCanShieldJump = false;
-        //Debug.LogFormat("On enter = {0}", enter);
+
+        if (Input.GetKeyDown(KeyCode.Space) && m_Grounded)
+        {
+            m_Rigidbody.velocity = Vector3.up * m_JumpForce;
+            Debug.Log("#1");
+        }
+        else if (mCanShieldJump && Input.GetKeyDown(KeyCode.Space))
+        {
+            DoShieldJump();
+            Debug.Log("#2");
+        }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("#3");
+            if (mAirJumpCount < m_airJumpMaxCount)
+            {
+                m_Rigidbody.velocity = Vector3.up * m_JumpForce;
+                mAirJumpCount++;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -104,6 +106,11 @@ public class CharacterController : MonoBehaviour
         Move(mHorizontalMove);
     }
 
+    private void OnDestroy()
+    {
+        //EventManager.pInstance.OnShieldCollision -= OnShieldCollision;
+        EventManager.pInstance.OnDamageReceived -= OnDamageReceived;
+    }
 
     public void Move(float move)
     {
@@ -157,30 +164,15 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    private void Update()
+    private void Flip()
     {
-        mHorizontalMove = Input.GetAxisRaw("Horizontal");
-        ShieldJumpCheck();
-        if (m_Grounded)
-        {
-            mAirJumpCount = 0;
-        }
+        // Switch the way the player is labelled as facing.
+        FacingRight = !FacingRight;
 
-        if (Input.GetKeyDown(KeyCode.Space) && m_Grounded)
-        {
-            m_Rigidbody.velocity = Vector3.up * m_JumpForce;
-
-        }
-        else if (mCanShieldJump && Input.GetKeyDown(KeyCode.Space))
-            DoShieldJump();
-        else if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (mAirJumpCount < m_airJumpMaxCount)
-            {
-                m_Rigidbody.velocity = Vector3.up * m_JumpForce;
-                mAirJumpCount++;
-            }
-        }
+        // Multiply the player's x local scale by -1.
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
     }
 
     private void DoShieldJump()
@@ -198,23 +190,31 @@ public class CharacterController : MonoBehaviour
         else
             mCanShieldJump = false;
 
+
     }
 
-    private void Flip()
+    public void DoDamage(float damage)
     {
-        // Switch the way the player is labelled as facing.
-        FacingRight = !FacingRight;
-
-        // Multiply the player's x local scale by -1.
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+        //reduce the hitpoints
     }
 
-    private void OnDestroy()
+    private void OnDamageReceived(Collider2D bullet)
     {
-        //EventManager.pInstance.OnShieldCollision -= OnShieldCollision;
-        EventManager.pInstance.OnDamageReceived -= OnDamageReceived;
+        //DoDamage(damage from the bullet)
+    }
+
+    private void OnShieldCollision(Collider2D collider, bool enter)
+    {
+        if (collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            //if(enter && collider)
+            //{
+            //    DoShieldJump();
+            //}
+        }
+        else
+            mCanShieldJump = false;
+        //Debug.LogFormat("On enter = {0}", enter);
     }
 
     private void OnDrawGizmos()
