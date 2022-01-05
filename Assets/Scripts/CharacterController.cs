@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class CharacterController : MonoBehaviour
@@ -26,7 +25,7 @@ public class CharacterController : MonoBehaviour
     private Vector2 m_Velocity = Vector3.zero;
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;            // Whether or not the player is grounded.
+    private bool grounded;            // Whether or not the player is grounded.
     //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 
     private int mAirJumpCount = 0;
@@ -34,7 +33,6 @@ public class CharacterController : MonoBehaviour
     private bool canAirJump { get => mAirJumpCount < m_airJumpMaxCount; }
 
     private float mHorizontalMove = 0f;
-    private Vector3 mNewPosition = new Vector3();
 
     /// <summary>
     /// これで盾の位置調整の状態を取得する。主人公の向きの制御は盾の位置調整の状態によって、主人公の移動ではなく盾の調整で制御されることがあるため。
@@ -54,10 +52,7 @@ public class CharacterController : MonoBehaviour
         m_sc = GetComponentInChildren<ShieldController>();
         m_Rigidbody = GetComponent<Rigidbody2D>();
 
-        if (OnLandEvent == null)
-            OnLandEvent = new UnityEvent();
-
-        m_airJumpMaxCount = 1;
+        OnLandEvent ??= new UnityEvent();
     }
 
     private void OnEnable()
@@ -74,15 +69,6 @@ public class CharacterController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool wasGrounded = m_Grounded;
-        m_Grounded = false;
-
-        // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
-        m_Grounded = Physics2D.OverlapCircle(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-        if (!wasGrounded)
-            OnLandEvent.Invoke();
-
         Move(mHorizontalMove);
     }
 
@@ -94,9 +80,8 @@ public class CharacterController : MonoBehaviour
 
     public void Move(float move)
     {
-        
         //only control the player if grounded or airControl is turned on
-        if (m_Grounded || m_AirControl)
+        if (grounded || m_AirControl)
         {
             // Move the character by finding the target velocity
             Vector2 targetVelocity = new Vector2(move * m_moveSpeed, m_Rigidbody.velocity.y);
@@ -105,6 +90,7 @@ public class CharacterController : MonoBehaviour
             // If the input is moving the player right and the player is facing left...
             FlipByMovementAndShield(move);
         }
+        var mNewPosition = new Vector3();
         mNewPosition = m_Rigidbody.position;
         mNewPosition.x = Mathf.Clamp(mNewPosition.x, m_xMinConstraint, m_xMaxConstraint);
         m_Rigidbody.position = mNewPosition;
@@ -158,11 +144,11 @@ public class CharacterController : MonoBehaviour
     private void HandleJump()
     {
         ShieldJumpCheck();
-        if (m_Grounded) mAirJumpCount = 0;
+        if (grounded) mAirJumpCount = 0;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (m_Grounded)
+            if (grounded)
             {
                 Debug.Log("DoJump");
                 DoJump();
@@ -193,12 +179,11 @@ public class CharacterController : MonoBehaviour
     private void DoShieldJump()
     {
         m_Rigidbody.velocity = Vector3.up * m_ShieldJumpForce;
-        Debug.LogFormat("Shield jump");
     }
 
     private void ShieldJumpCheck()
     {
-        if (!m_Grounded && m_Rigidbody.velocity.y < 0)
+        if (!grounded && m_Rigidbody.velocity.y < 0)
         {
             mCanShieldJump = Physics2D.OverlapCircle(m_shieldJumpCheck.position, k_GroundedRadius, m_WhatIsGround);
         }
@@ -208,6 +193,23 @@ public class CharacterController : MonoBehaviour
     public void DoDamage(float damage)
     {
         //reduce the hitpoints
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            if (!grounded) OnLandEvent.Invoke();
+            grounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Platform"))
+        {
+            grounded = false;
+        }
     }
 
     private void OnDamageReceived(Collider2D bullet)
@@ -228,6 +230,7 @@ public class CharacterController : MonoBehaviour
             mCanShieldJump = false;
         //Debug.LogFormat("On enter = {0}", enter);
     }
+
 
     private void OnDrawGizmos()
     {
