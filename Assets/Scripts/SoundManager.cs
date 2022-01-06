@@ -11,58 +11,75 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
     }
 
+//------------------Screen------------------
     public void OnButtonClickSE()
     {
         audioSource.PlayOneShot(soundList[0]);
     }
+
+//------------------GamePlay------------------
     public void OnClearSE()
     {
         audioSource.PlayOneShot(soundList[1]);
     }
+
+//------------------Player------------------
     public void OnWalkSE()
     {
         audioSource.PlayOneShot(soundList[2]);
     }
+
     public void OnJumpSE()
     {
         audioSource.PlayOneShot(soundList[3]);
     }
+
     public void OnShieldJumpSE()
     {
         audioSource.PlayOneShot(soundList[4]);
     }
+
     public void OnLandingSE()
     {
         audioSource.PlayOneShot(soundList[5]);
     }
+
     public void OnShieldDefenseSE()
     {
         audioSource.PlayOneShot(soundList[6]);
     }
+
     public void OnShieldAttackSE()
     {
         audioSource.PlayOneShot(soundList[7]);
     }
+
     public void OnReceivedDamageSE()
     {
         audioSource.PlayOneShot(soundList[8]);
     }
+
     public void OnDeathSE()
     {
         audioSource.PlayOneShot(soundList[9]);
     }
+
     public void OnThinkingSE()
     {
         audioSource.PlayOneShot(soundList[10]);
     }
+
+//------------------Enemy------------------
     public void OnEnemyLandingSE()
     {
         audioSource.PlayOneShot(soundList[11]);
     }
+
     public void OnBulletLaunchSE()
     {
         audioSource.PlayOneShot(soundList[12]);
     }
+
     public void OnStunSE()
     {
         audioSource.PlayOneShot(soundList[13]);
