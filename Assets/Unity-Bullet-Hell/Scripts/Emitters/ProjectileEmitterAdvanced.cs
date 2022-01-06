@@ -348,7 +348,16 @@ namespace BulletHell
                     if (player)
                     {
                         // Put whatever hit code you want here such as damage events
-
+                        var pc = player.GetComponent<CharacterController>();
+                        var sc = player.GetComponent<ShieldController>();
+                        if (pc)
+                        {
+                            pc.ReceiveDamage(1);
+                        }
+                        else if (sc)
+                        {
+                            // TODO: 盾防御のSE
+                        }
                         // Collision was detected, should we bounce off or destroy the projectile?
                         if (BounceOffSurfaces)
                         {

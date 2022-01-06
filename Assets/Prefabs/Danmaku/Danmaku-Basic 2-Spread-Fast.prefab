@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4828272978367951648, guid: 44a0367fe6eff1d4aa9b9fabd1360f2e, type: 3}
       propertyPath: m_Name
-      value: Danmaku-Basic 2-Spread-Quick
+      value: Danmaku-Basic 2-Spread-Fast
       objectReference: {fileID: 0}
     - target: {fileID: 5050937861982320615, guid: 44a0367fe6eff1d4aa9b9fabd1360f2e, type: 3}
       propertyPath: m_RootOrder

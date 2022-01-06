@@ -18,40 +18,33 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private float xMaxConstraint;
 
     [Header("Stats")]
-    [SerializeField] private float hitPoints;
+    [SerializeField] private int hitPoints;
     public bool FacingRight { get; private set; } = true;
 
     private Rigidbody2D rb;
     private Vector2 velocity = Vector3.zero;
 
-    private bool grounded;            // Whether or not the player is grounded.
+    private bool Grounded { get => groundHandler.Grounded; }
     //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 
     private int airJumpCount = 0;
     private bool canShieldJump = false;
     private bool canAirJump { get => airJumpCount < airJumpMaxCount; }
+    
 
     private float horizontalMove = 0f;
 
     /// <summary>
     /// これで盾の位置調整の状態を取得する。主人公の向きの制御は盾の位置調整の状態によって、主人公の移動ではなく盾の調整で制御されることがあるため。
     /// </summary>
-    private ShieldController sc;
-
-    [Header("Events")]
-    [Space]
-
-    public UnityEvent OnLandEvent;
-
-    [System.Serializable]
-    public class BoolEvent : UnityEvent<bool> { }
+    private ShieldController shieldController;
+    private PlayerGroundHandler groundHandler;
 
     private void Awake()
     {
-        sc = GetComponentInChildren<ShieldController>();
         rb = GetComponent<Rigidbody2D>();
-
-        OnLandEvent ??= new UnityEvent();
+        shieldController = GetComponentInChildren<ShieldController>();
+        groundHandler = GetComponentInChildren<PlayerGroundHandler>();
     }
 
     private void OnEnable()
@@ -80,7 +73,7 @@ public class CharacterController : MonoBehaviour
     public void Move(float move)
     {
         //only control the player if grounded or airControl is turned on
-        if (grounded || airControl)
+        if (Grounded || airControl)
         {
             // Move the character by finding the target velocity
             Vector2 targetVelocity = new Vector2(move * moveSpeed, rb.velocity.y);
@@ -101,13 +94,13 @@ public class CharacterController : MonoBehaviour
     /// <param name="dx">x 軸移動量</param>
     private void FlipByMovementAndShield(float dx)
     {
-        if (sc.IsControlling) // プレイヤーが盾の位置を制御しているとき
+        if (shieldController.IsControlling) // プレイヤーが盾の位置を制御しているとき
         {
             // 盾の位置によって反転するかを決める
-            if (!sc.FacingFront)
+            if (!shieldController.FacingFront)
             {
                 Flip();
-                sc.Flip();
+                shieldController.Flip();
             }
         }
         else
@@ -141,72 +134,51 @@ public class CharacterController : MonoBehaviour
     private void HandleJump()
     {
         ShieldJumpCheck();
-        if (grounded) airJumpCount = 0;
+        if (Grounded) airJumpCount = 0;
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (grounded)
+            if (Grounded)
             {
                 Debug.Log("DoJump");
-                DoJump();
+                DoJump(jumpForce);
             }
             else if (canShieldJump)
             {
                 Debug.Log("DoShieldJump");
-                DoShieldJump();
+                DoJump(shieldJumpForce);
             }
             else if (canAirJump)
             {
                 Debug.Log("DoAirJump");
-                DoAirJump();
+                DoAirJump(jumpForce);
             }
         }
     }
 
-    private void DoJump()
+    private void DoJump(float jumpForce)
     {
-        rb.velocity = Vector3.up * jumpForce;
+        rb.velocity = groundHandler.GetComponent<Rigidbody2D>().velocity = Vector3.up * jumpForce; // 全体として同じ力を与えなければ、個々の間で力が交互に作用して打ち消してしまうので、きちっと数値分の力が出ない
     }
-    private void DoAirJump()
+    private void DoAirJump(float jumpForce)
     {
-        DoJump();
+        DoJump(jumpForce);
         airJumpCount++;
-    }
-
-    private void DoShieldJump()
-    {
-        rb.velocity = Vector3.up * shieldJumpForce;
     }
 
     private void ShieldJumpCheck()
     {
-        if (!grounded && rb.velocity.y < 0)
+        if (!Grounded && rb.velocity.y < 0)
         {
             canShieldJump = Physics2D.OverlapCircle(shieldJumpCheck.position, GROUNDED_RADIUS, whatIsGround);
         }
         else canShieldJump = false;
     }
 
-    public void DoDamage(float damage)
+    public void ReceiveDamage(int damage)
     {
-        //reduce the hitpoints
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Platform"))
-        {
-            if (!grounded) OnLandEvent.Invoke();
-            grounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Platform"))
-        {
-            grounded = false;
-        }
+        // TODO: 被ダメ SE、ライフが 0 のとき失敗
+        hitPoints -= damage;
     }
 
     private void OnDamageReceived(Collider2D bullet)
@@ -226,7 +198,6 @@ public class CharacterController : MonoBehaviour
         else canShieldJump = false;
         //Debug.LogFormat("On enter = {0}", enter);
     }
-
 
     private void OnDrawGizmos()
     {
