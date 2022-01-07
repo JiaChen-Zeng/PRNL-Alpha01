@@ -16,8 +16,12 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private float xMinConstraint;
     [SerializeField] private float xMaxConstraint;
 
-    [Header("Stats")]
-    [SerializeField] private int hitPoints;
+    public int HitPoints
+    {
+        get => GameManager.INSTANCE.PlayerHp;
+        set => GameManager.INSTANCE.PlayerHp = value;
+    }
+
     public bool FacingRight { get; private set; } = true;
 
     private Rigidbody2D rb;
@@ -29,7 +33,6 @@ public class CharacterController : MonoBehaviour
     private int airJumpCount = 0;
     private bool canShieldJump = false;
     private bool canAirJump { get => airJumpCount < airJumpMaxCount; }
-    
 
     private float horizontalMove = 0f;
 
@@ -186,7 +189,7 @@ public class CharacterController : MonoBehaviour
     public void ReceiveDamage(int damage)
     {
         // TODO: 被ダメ SE、ライフが 0 のとき失敗
-        hitPoints -= damage;
+        HitPoints -= damage;
     }
 
     private void OnDamageReceived(Collider2D bullet)
