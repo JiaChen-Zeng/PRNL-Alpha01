@@ -15049,6 +15049,10 @@ PrefabInstance:
       propertyPath: m_hitPoints
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7425128599919113875, guid: 189caf84d1ebdc74ca352f8343756db9, type: 3}
+      propertyPath: movementSmoothing
+      value: 0.009
+      objectReference: {fileID: 0}
     - target: {fileID: 7425128599919113876, guid: 189caf84d1ebdc74ca352f8343756db9, type: 3}
       propertyPath: m_Size.x
       value: 0.6732013
