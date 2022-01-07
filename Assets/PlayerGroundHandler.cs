@@ -36,6 +36,12 @@ public class PlayerGroundHandler : MonoBehaviour
         {
             ReactivatePreviousGround();
             Ground = collision.collider;
+
+            if (collision.gameObject.GetComponent<SavePoint>())
+            {
+                // TODO: 回復エフェクト、パートクリア、頂上だとゲームクリア
+                GameManager.INSTANCE.RecoverPlayerHP();
+            }
         }
     }
 

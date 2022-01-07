@@ -31,6 +31,11 @@ public class GameManager : MonoBehaviour
         initHP();
     }
 
+    public void RecoverPlayerHP()
+    {
+        PlayerHp = Math.Max(PlayerInitialHP, PlayerHp);
+    }
+
     private void initHP()
     {
         hpIndicator = FindObjectOfType<HPIndicator>();
