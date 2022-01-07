@@ -1073,11 +1073,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpForce: 26
-  shieldJumpForce: 40
+  shieldJumpForce: 35
   moveSpeed: 14
   airJumpMaxCount: 1
   fallMultiplier: 2
-  movementSmoothing: 0.014
+  movementSmoothing: 0.009
   airControl: 1
   whatIsGround:
     serializedVersion: 2
