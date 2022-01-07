@@ -45,19 +45,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   soundList:
+  - {fileID: 8300000, guid: a52f8c662cddf2942879b5bbd4844cd1, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: e4175a7e801a36648af6ce92d3518b08, type: 3}
+  - {fileID: 8300000, guid: 42e85a21c83b12e498ba68ac18d57e39, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: b2965c02f7b840740b6c3029b6835ef0, type: 3}
+  - {fileID: 8300000, guid: 77dd6eba768589e43a1ddd7450e6a2b5, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 10a89388cd86f8a4281338a65a33445b, type: 3}
+  - {fileID: 8300000, guid: 3a311d185c2a4c84098d633ca76e6403, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 14d23a0dfe02bd140b01c986e776d78e, type: 3}
   - {fileID: 0}
 --- !u!82 &620712795925741462
 AudioSource:
