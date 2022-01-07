@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 7947649046492446931}
   - component: {fileID: 7886165129685500320}
   - component: {fileID: 899030088}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: Shield
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1085,7 +1085,6 @@ MonoBehaviour:
   shieldJumpCheck: {fileID: 283079167}
   xMinConstraint: -5.3
   xMaxConstraint: 5.3
-  hitPoints: 5
 --- !u!1 &7738400089283519150
 GameObject:
   m_ObjectHideFlags: 0
