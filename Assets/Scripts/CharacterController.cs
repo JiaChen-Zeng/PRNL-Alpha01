@@ -136,7 +136,7 @@ public class CharacterController : MonoBehaviour
         ShieldJumpCheck();
         if (Grounded) airJumpCount = 0;
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
         {
             if (Grounded)
             {
