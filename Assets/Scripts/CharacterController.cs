@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 
 public class CharacterController : MonoBehaviour
 {
@@ -57,6 +56,7 @@ public class CharacterController : MonoBehaviour
     {
         horizontalMove = Input.GetAxisRaw("Horizontal");
         HandleJump();
+        HandleFallThrough();
     }
 
     private void FixedUpdate()
@@ -159,6 +159,7 @@ public class CharacterController : MonoBehaviour
     private void DoJump(float jumpForce)
     {
         rb.velocity = groundHandler.GetComponent<Rigidbody2D>().velocity = Vector3.up * jumpForce; // 全体として同じ力を与えなければ、個々の間で力が交互に作用して打ち消してしまうので、きちっと数値分の力が出ない
+        groundHandler.ReactivatePreviousGround();
     }
     private void DoAirJump(float jumpForce)
     {
@@ -173,6 +174,13 @@ public class CharacterController : MonoBehaviour
             canShieldJump = Physics2D.OverlapCircle(shieldJumpCheck.position, GROUNDED_RADIUS, whatIsGround);
         }
         else canShieldJump = false;
+    }
+    private void HandleFallThrough()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            groundHandler.FallThroughGround();
+        }
     }
 
     public void ReceiveDamage(int damage)
