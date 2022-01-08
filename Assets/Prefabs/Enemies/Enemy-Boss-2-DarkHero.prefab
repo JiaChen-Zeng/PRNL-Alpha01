@@ -57,11 +57,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3997292227611762342, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
       propertyPath: m_Name
-      value: Enemy-Boss-1
+      value: Enemy-Boss-2-DarkHero
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997292227611762393, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_Radius
+      value: 8.755288
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997292227611762393, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.50005436
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997292227611762393, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_Offset.y
+      value: 1.2106681
       objectReference: {fileID: 0}
     - target: {fileID: 3997292227611762394, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997292227611762394, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.11001917
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997292227611762394, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.11001917
+      objectReference: {fileID: 0}
+    - target: {fileID: 3997292227611762394, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.07334611
       objectReference: {fileID: 0}
     - target: {fileID: 3997292227611762394, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -75,6 +99,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3997292227611762395, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6d31a0a355310164ba1fa7ab4ae563a6, type: 3}
     - target: {fileID: 4187958406379602424, guid: d8d62c2bac6088d47a635bd8e767050f, type: 3}
       propertyPath: danmakuList.Array.size
       value: 8

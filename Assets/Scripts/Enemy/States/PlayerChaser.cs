@@ -56,7 +56,7 @@ public class PlayerChaser
 
         // TEMP: 簡単にプラットフォームまで移動させる。後でちゃんとジャンプするように変える必要がある。
         var pos = platform.transform.position;
-        pos.y -= 0.8f;
+        pos.y -= 1.3f;
         var pWidth = Math.Min(platform.transform.localScale.x - 1, 10); // 横幅 20 のプラットフォームで画面外に行ってしまわないように
         pos.x += UnityEngine.Random.Range(-pWidth / 2, pWidth / 2);
         state.transform.DOMove(pos, 1);
