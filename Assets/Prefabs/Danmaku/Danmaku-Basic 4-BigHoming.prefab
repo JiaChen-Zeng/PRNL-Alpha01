@@ -75,7 +75,7 @@ MonoBehaviour:
     m_NumColorKeys: 2
     m_NumAlphaKeys: 2
   TimeToLive: 100
-  CoolOffTime: 4
+  CoolOffTime: 3
   AutoFire: 0
   Direction: {x: 0, y: -1}
   Speed: 5
