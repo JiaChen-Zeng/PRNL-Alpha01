@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -12,17 +13,36 @@ public class ShieldController : MonoBehaviour
     /// <summary>
     /// プレイヤーが盾の制御を行っているか。true は行っている。
     /// </summary>
-    public bool IsControlling
-    {
-        get => Control != Vector2.zero;
-    }
+    public bool IsControlling { get => Control != Vector2.zero; }
 
     /// <summary>
-    /// 盾実際にいる回転位置 `localEulerAngles`（盾の最終 tween 位置 `m_rotation` ではない）が前向きか
+    /// 盾実際にいる回転位置（盾の最終 tween 位置 `m_rotation` ではない）が前向きか
     /// </summary>
-    public bool FacingFront
+    public bool FacingFront { get => Math.Abs(DestinationAngle) <= 90; }
+
+    /// <summary>
+    /// 盾実際にいる回転位置が下を向いているか。主に盾ジャンプの判定に使う
+    /// </summary>
+    public bool PointingDownwards
     {
-        get => Math.Abs(DestinationAngle) <= 90;
+        get
+        {
+            var angle = DestinationAngle;
+            return -150 < angle && angle < -30;
+        }
+    }
+
+    public bool CollidedWithGround
+    {
+        get
+        {
+            var groundFilter = new ContactFilter2D();
+            groundFilter.SetLayerMask(LayerMask.GetMask("Ground"));
+
+            var colliders = new List<Collider2D>();
+            shieldCollider.OverlapCollider(groundFilter, colliders);
+            return 0 < colliders.Count;
+        }
     }
 
     /// <summary>
@@ -52,6 +72,10 @@ public class ShieldController : MonoBehaviour
     /// 主人公の向きを取得するため。盾の回転位置は向きによるからだ。
     /// </summary>
     private CharacterController characterController;
+    /// <summary>
+    /// 盾ジャンプの判定をするため
+    /// </summary>
+    private Collider2D shieldCollider;
 
     /// <summary>
     /// 範囲が [0, 360) の `localEulerAngles` を (-180, 180] に落とした回転角
@@ -68,6 +92,7 @@ public class ShieldController : MonoBehaviour
     private void Awake()
     {
         characterController = GetComponentInParent<CharacterController>();
+        shieldCollider = GetComponentInChildren<Collider2D>();
     }
 
     private void Update()

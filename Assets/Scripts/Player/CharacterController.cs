@@ -2,13 +2,9 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Linq;
-using System.Threading.Tasks;
-using System;
 
 public class CharacterController : MonoBehaviour
 {
-    const float GROUNDED_RADIUS = .2f; // Radius of the overlap circle to determine if grounded
-
     [SerializeField] private float jumpForce = 400f;                          // Amount of force added when the player jumps.
     [SerializeField] private float shieldJumpForce = 400f;                          // Amount of force added when the player jumps.
     [SerializeField] private float moveSpeed = 10f;                          // Amount of force added when the player jumps.
@@ -38,11 +34,14 @@ public class CharacterController : MonoBehaviour
     private Vector2 velocity = Vector3.zero;
 
     private bool Grounded { get => groundHandler.Grounded; }
-    //const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
 
     private int airJumpCount = 0;
-    private bool canShieldJump = false;
     private bool canAirJump { get => airJumpCount < airJumpMaxCount; }
+    public bool CanShieldJump
+    {
+        get => !Grounded && rb.velocity.y < 0
+            && shieldController.PointingDownwards && shieldController.CollidedWithGround;
+    }
 
     private float horizontalMove = 0f;
 
@@ -68,7 +67,7 @@ public class CharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         shieldController = GetComponentInChildren<ShieldController>();
         groundHandler = GetComponentInChildren<CharacterGroundHandler>();
-        bodyRenderers = GetComponentsInChildren<SpriteRenderer>().Where(r => !r.GetComponent<ShieldEventHandler>()).ToArray();
+        bodyRenderers = GetComponentsInChildren<SpriteRenderer>().Where(r => r.name != "Shield").ToArray();
     }
 
     private void Update()
@@ -98,8 +97,7 @@ public class CharacterController : MonoBehaviour
             // If the input is moving the player right and the player is facing left...
             FlipByMovementAndShield(move);
         }
-        var newPosition = new Vector3();
-        newPosition = rb.position;
+        var newPosition = rb.position;
         newPosition.x = Mathf.Clamp(newPosition.x, xMinConstraint, xMaxConstraint);
         rb.position = newPosition;
     }
@@ -149,7 +147,6 @@ public class CharacterController : MonoBehaviour
 
     private void HandleJump()
     {
-        ShieldJumpCheck();
         if (Grounded) airJumpCount = 0;
 
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W))
@@ -159,7 +156,7 @@ public class CharacterController : MonoBehaviour
                 Debug.Log("DoJump");
                 DoJump(jumpForce);
             }
-            else if (canShieldJump)
+            else if (CanShieldJump)
             {
                 Debug.Log("DoShieldJump");
                 DoJump(shieldJumpForce);
@@ -182,15 +179,6 @@ public class CharacterController : MonoBehaviour
     {
         DoJump(jumpForce);
         airJumpCount++;
-    }
-
-    private void ShieldJumpCheck()
-    {
-        if (!Grounded && rb.velocity.y < 0)
-        {
-            canShieldJump = Physics2D.OverlapCircle(shieldJumpCheck.position, GROUNDED_RADIUS, whatIsGround);
-        }
-        else canShieldJump = false;
     }
 
     private void HandleFallThrough()
@@ -230,7 +218,7 @@ public class CharacterController : MonoBehaviour
 
     private async UniTask ShowDamagedEffect()
     {
-        var defaultColor = bodyRenderers.First().color;
+        var defaultColor = bodyRenderers[0].color;
         var redColor = new Color(229f / 255, 112f / 255, 112f / 255);
         await TweenColor(redColor, 0.05f);
         await TweenColor(defaultColor, 0.05f);
@@ -255,11 +243,5 @@ public class CharacterController : MonoBehaviour
         var pos = transform.position;
         pos.y = groundHandler.LastSavePoint.transform.position.y + 1;
         transform.position = pos;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(shieldJumpCheck.position, GROUNDED_RADIUS);
     }
 }
