@@ -71,9 +71,29 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 9121175150017723989, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
+      propertyPath: m_Radius
+      value: 10.73806
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121175150017723989, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.50005436
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121175150017723989, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
+      propertyPath: m_Offset.y
+      value: 1.2106681
+      objectReference: {fileID: 0}
     - target: {fileID: 9121175150017723990, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121175150017723990, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9121175150017723990, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 9121175150017723990, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -87,6 +107,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9121175150017723991, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6d31a0a355310164ba1fa7ab4ae563a6, type: 3}
     m_RemovedComponents:
     - {fileID: 509214144, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d52c91360d9110a49b6afd08438b1799, type: 3}
