@@ -1007,8 +1007,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   shieldJumpCheck: {fileID: 0}
-  xMinConstraint: -5.3
-  xMaxConstraint: 5.3
+  xMinConstraint: -4.9
+  xMaxConstraint: 4.9
   undead: 0
 --- !u!1 &7738400089283519150
 GameObject:
