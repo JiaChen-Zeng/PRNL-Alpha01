@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4262303649200114563, guid: d2354e8a73670864fba88f219f560d5d, type: 3}
       propertyPath: Speed
-      value: 10
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4262303649200114563, guid: d2354e8a73670864fba88f219f560d5d, type: 3}
       propertyPath: SpokeCount
@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4262303649200114563, guid: d2354e8a73670864fba88f219f560d5d, type: 3}
       propertyPath: FollowIntensity
-      value: 1.4
+      value: 1.2
       objectReference: {fileID: 0}
     - target: {fileID: 4828272978367951648, guid: d2354e8a73670864fba88f219f560d5d, type: 3}
       propertyPath: m_Name

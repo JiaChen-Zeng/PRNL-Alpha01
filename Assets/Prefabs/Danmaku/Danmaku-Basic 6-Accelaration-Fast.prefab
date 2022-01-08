@@ -15,6 +15,10 @@ PrefabInstance:
       propertyPath: CoolOffTime
       value: 0.4
       objectReference: {fileID: 0}
+    - target: {fileID: 4262303649200114563, guid: df474c96bafb75d4da7308762b95ebbc, type: 3}
+      propertyPath: Acceleration
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4828272978367951648, guid: df474c96bafb75d4da7308762b95ebbc, type: 3}
       propertyPath: m_Name
       value: Danmaku-Basic 6-Accelaration-Fast
