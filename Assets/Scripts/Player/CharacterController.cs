@@ -2,6 +2,7 @@
 using UnityEngine;
 using DG.Tweening;
 using System.Linq;
+using System;
 
 public class CharacterController : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class CharacterController : MonoBehaviour
     private ShieldController shieldController;
     private CharacterGroundHandler groundHandler;
     private SpriteRenderer[] bodyRenderers;
+    private Animator animator;
 
     /// <summary>
     /// `true` の場合、プレイヤーは主人公を操作できる
@@ -67,6 +69,7 @@ public class CharacterController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         shieldController = GetComponentInChildren<ShieldController>();
         groundHandler = GetComponentInChildren<CharacterGroundHandler>();
+        animator = GetComponentInChildren<Animator>();
         bodyRenderers = GetComponentsInChildren<SpriteRenderer>().Where(r => r.name != "Shield").ToArray();
     }
 
@@ -78,6 +81,13 @@ public class CharacterController : MonoBehaviour
             HandleJump();
             HandleFallThrough();
         }
+        HandleAnimation();
+    }
+
+    private void HandleAnimation()
+    {
+        if (Grounded) animator.Play(horizontalMove == 0 ? "Idle" : "Run");
+        else animator.Play("Jump");
     }
 
     private void FixedUpdate()
@@ -153,18 +163,15 @@ public class CharacterController : MonoBehaviour
         {
             if (Grounded)
             {
-                Debug.Log("DoJump");
                 DoJump(jumpForce);
             }
             else if (CanShieldJump)
             {
-                Debug.Log("DoShieldJump");
                 DoJump(shieldJumpForce);
                 airJumpCount = 0;
             }
             else if (canAirJump)
             {
-                Debug.Log("DoAirJump");
                 DoAirJump(jumpForce);
             }
         }
