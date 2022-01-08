@@ -7,12 +7,17 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private const float k_mapWidth = 11.24f;
 
-    [SerializeField] private Transform m_target;
-
     [SerializeField] private float constraintYMin = 0;
     [SerializeField] private float constraintYMax = Mathf.Infinity;
 
     [SerializeField] private float offsetY = 3;
+
+    private Transform character;
+
+    private void Awake()
+    {
+        character = FindObjectOfType<CharacterController>().transform;
+    }
 
     private void LateUpdate()
     {
@@ -22,7 +27,7 @@ public class CameraController : MonoBehaviour
     private void TrackCharacter()
     {
         Vector3 pos = transform.position;
-        pos.y = Mathf.Clamp(m_target.position.y + offsetY, constraintYMin, constraintYMax);
+        pos.y = Mathf.Clamp(character.position.y + offsetY, constraintYMin, constraintYMax);
         transform.position = pos;
     }
 
