@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class ShieldController : MonoBehaviour
 {
-    [SerializeField] private float rotateSpeed = 0.1f;
+    [SerializeField] private float rotateSpeed = 20f;
 
     /// <summary>
     /// プレイヤーが盾の制御を行っているか。true は行っている。
@@ -122,6 +122,6 @@ public class ShieldController : MonoBehaviour
             else dRot += 360;
         }
 
-        transform.localEulerAngles = Vector3.forward * (DestinationAngle + dRot * rotateSpeed);
+        transform.localEulerAngles = Vector3.forward * (DestinationAngle + dRot * rotateSpeed * Time.deltaTime);
     }
 }
