@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 
-public class PlayerGroundHandler : MonoBehaviour
+/// <summary>
+/// 主人公の地面とのコリジョン、セーブポイントとの連携を処理する
+/// </summary>
+public class CharacterGroundHandler : MonoBehaviour
 {
     public bool Grounded { get => Ground; }
 
     private Collider2D collider;
+
     /// <summary>
     /// 今立っているプラットフォーム
     /// </summary>
     private Collider2D Ground { get; set; }
     private Collider2D prevGround;
+
+    public SavePoint LastSavePoint { get; private set; }
 
     private void Awake()
     {
@@ -29,6 +35,17 @@ public class PlayerGroundHandler : MonoBehaviour
 
         Physics2D.IgnoreCollision(collider, prevGround, false);
     }
+    private void HandleSavePoint(Collision2D collision)
+    {
+        var savePoint = collision.gameObject.GetComponent<SavePoint>();
+        if (!savePoint) return;
+
+        // TODO: ステージクリア表示、頂上だとゲームクリア
+        LastSavePoint = savePoint;
+
+        // TODO: 回復エフェクト
+        GameManager.INSTANCE.RecoverPlayerHP(); 
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -36,12 +53,7 @@ public class PlayerGroundHandler : MonoBehaviour
         {
             ReactivatePreviousGround();
             Ground = collision.collider;
-
-            if (collision.gameObject.GetComponent<SavePoint>())
-            {
-                // TODO: 回復エフェクト、パートクリア、頂上だとゲームクリア
-                GameManager.INSTANCE.RecoverPlayerHP();
-            }
+            HandleSavePoint(collision);
         }
     }
 

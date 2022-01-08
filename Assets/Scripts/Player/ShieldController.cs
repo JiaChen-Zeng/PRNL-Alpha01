@@ -7,14 +7,14 @@ using UnityEngine;
 /// </summary>
 public class ShieldController : MonoBehaviour
 {
-    [SerializeField] private float m_rotateSpeed = 0.1f;
+    [SerializeField] private float rotateSpeed = 0.1f;
 
     /// <summary>
     /// プレイヤーが盾の制御を行っているか。true は行っている。
     /// </summary>
     public bool IsControlling
     {
-        get => m_control != Vector2.zero;
+        get => Control != Vector2.zero;
     }
 
     /// <summary>
@@ -22,26 +22,28 @@ public class ShieldController : MonoBehaviour
     /// </summary>
     public bool FacingFront
     {
-        get => Math.Abs(m_destinationAngle) <= 90;
+        get => Math.Abs(DestinationAngle) <= 90;
     }
 
     /// <summary>
     /// プレイヤーの盾位置調整の入力
     /// </summary>
-    private Vector2 m_control
+    private Vector2 Control
     {
-        get => new Vector2(Input.GetAxis("ShieldHorizontal"), Input.GetAxis("ShieldVertical"));
+        get => characterController.Controllable
+            ? new Vector2(Input.GetAxis("ShieldHorizontal"), Input.GetAxis("ShieldVertical"))
+            : Vector2.zero;
     }
 
     /// <summary>
     /// 盾の回転角度
     /// </summary>
-    private float m_rotation
+    private float Rotation
     {
         get
         {
-            float angle = Vector2.SignedAngle(m_cc.FacingRight ? Vector2.right : Vector2.left, m_control);
-            if (!m_cc.FacingRight) angle = -angle;
+            float angle = Vector2.SignedAngle(characterController.FacingRight ? Vector2.right : Vector2.left, Control);
+            if (!characterController.FacingRight) angle = -angle;
             return angle;
         }
     }
@@ -49,12 +51,12 @@ public class ShieldController : MonoBehaviour
     /// <summary>
     /// 主人公の向きを取得するため。盾の回転位置は向きによるからだ。
     /// </summary>
-    private CharacterController m_cc;
+    private CharacterController characterController;
 
     /// <summary>
     /// 範囲が [0, 360) の `localEulerAngles` を (-180, 180] に落とした回転角
     /// </summary>
-    private float m_destinationAngle
+    private float DestinationAngle
     {
         get
         {
@@ -65,7 +67,7 @@ public class ShieldController : MonoBehaviour
 
     private void Awake()
     {
-        m_cc = GetComponentInParent<CharacterController>();
+        characterController = GetComponentInParent<CharacterController>();
     }
 
     private void Update()
@@ -79,7 +81,7 @@ public class ShieldController : MonoBehaviour
     public void Flip()
     {
         // 原型：Vector3.forward * (90 - (m_destinationAngle - 90))。左向きの場合は一部の数字がマイナスになる
-        transform.localEulerAngles = Vector3.forward * ((m_cc.FacingRight ? 1 : -1) * 180 - m_destinationAngle);
+        transform.localEulerAngles = Vector3.forward * ((characterController.FacingRight ? 1 : -1) * 180 - DestinationAngle);
     }
 
     /// <summary>
@@ -87,7 +89,7 @@ public class ShieldController : MonoBehaviour
     /// </summary>
     private void Rotate()
     {
-        float dRot = m_rotation - m_destinationAngle;
+        float dRot = Rotation - DestinationAngle;
         if (180 < Mathf.Abs(dRot)) // 普通の回転方向ではなく逆に回したほうが最短距離の場合、つまり変化量が 180 より大きい場合
         {
             // 今の回転方向に応じて実際の回転方向が逆になるように調整
@@ -95,6 +97,6 @@ public class ShieldController : MonoBehaviour
             else dRot += 360;
         }
 
-        transform.localEulerAngles = Vector3.forward * (m_destinationAngle + dRot * m_rotateSpeed);
+        transform.localEulerAngles = Vector3.forward * (DestinationAngle + dRot * rotateSpeed);
     }
 }

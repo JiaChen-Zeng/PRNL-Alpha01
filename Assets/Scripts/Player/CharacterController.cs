@@ -1,8 +1,9 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using DG.Tweening;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using System;
 
 public class CharacterController : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class CharacterController : MonoBehaviour
     [SerializeField] private Transform shieldJumpCheck;
     [SerializeField] private float xMinConstraint;
     [SerializeField] private float xMaxConstraint;
+
+    /// <summary>
+    /// `true` の場合、主人公は HP が 0 になっても死なない。主にテストプレイ用。
+    /// </summary>
+    [SerializeField] private bool undead;
 
     public int HitPoints
     {
@@ -44,7 +50,13 @@ public class CharacterController : MonoBehaviour
     /// これで盾の位置調整の状態を取得する。主人公の向きの制御は盾の位置調整の状態によって、主人公の移動ではなく盾の調整で制御されることがあるため。
     /// </summary>
     private ShieldController shieldController;
-    private PlayerGroundHandler groundHandler;
+    private CharacterGroundHandler groundHandler;
+    private SpriteRenderer[] bodyRenderers;
+
+    /// <summary>
+    /// `true` の場合、プレイヤーは主人公を操作できる
+    /// </summary>
+    public bool Controllable { get; private set; } = true;
 
     /// <summary>
     /// `true` だとダメージを受けない。ダメージを受けたとき少しの時間 `true` になる。
@@ -55,14 +67,18 @@ public class CharacterController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         shieldController = GetComponentInChildren<ShieldController>();
-        groundHandler = GetComponentInChildren<PlayerGroundHandler>();
+        groundHandler = GetComponentInChildren<CharacterGroundHandler>();
+        bodyRenderers = GetComponentsInChildren<SpriteRenderer>().Where(r => !r.GetComponent<ShieldEventHandler>()).ToArray();
     }
 
     private void Update()
     {
-        horizontalMove = Input.GetAxisRaw("Horizontal");
-        HandleJump();
-        HandleFallThrough();
+        if (Controllable)
+        {
+            horizontalMove = Input.GetAxisRaw("Horizontal");
+            HandleJump();
+            HandleFallThrough();
+        }
     }
 
     private void FixedUpdate()
@@ -193,29 +209,52 @@ public class CharacterController : MonoBehaviour
         HitPoints -= damage;
         damageImmune = true;
 
-        var renderers = GetComponentsInChildren<SpriteRenderer>().Where(r => !r.GetComponent<ShieldEventHandler>());
-        var defaultColor = renderers.First().color;
-        var redColor = new Color(229f / 255, 112f / 255, 112f / 255);
+        await ShowDamagedEffect();
 
-        await TweenColor(redColor, 0.05f);
-        await TweenColor(defaultColor, 0.05f);
-        for (int i = 0; i < 6; i++)
-        {
-            await TweenAlpha(0, 0.1f);
-            await TweenAlpha(1, 0.1f);
-        }
+        if (HitPoints <= 0 && !undead) await Die();
+        else for (int i = 0; i < 6; i++) await ShowImmuneEffect();
 
         damageImmune = false;
+    }
 
-        async UniTask TweenColor(Color redColor, float duration)
-        {
-            await UniTask.WhenAll(renderers.Select(r => r.DOColor(redColor, duration).Play().ToUniTask()));
-        }
+    private async UniTask ShowImmuneEffect()
+    {
+        await TweenAlpha(0, 0.1f);
+        await TweenAlpha(1, 0.1f);
 
         async UniTask TweenAlpha(float alpha, float duration)
         {
-            await UniTask.WhenAll(renderers.Select(r => r.DOFade(alpha, duration).Play().ToUniTask()));
+            await UniTask.WhenAll(bodyRenderers.Select(r => r.DOFade(alpha, duration).Play().ToUniTask()));
         }
+    }
+
+    private async UniTask ShowDamagedEffect()
+    {
+        var defaultColor = bodyRenderers.First().color;
+        var redColor = new Color(229f / 255, 112f / 255, 112f / 255);
+        await TweenColor(redColor, 0.05f);
+        await TweenColor(defaultColor, 0.05f);
+
+        async UniTask TweenColor(Color redColor, float duration)
+        {
+            await UniTask.WhenAll(bodyRenderers.Select(r => r.DOColor(redColor, duration).Play().ToUniTask()));
+        }
+    }
+
+    private async UniTask Die()
+    {
+        Controllable = false;
+        for (int i = 0; i < 10; i++) await ShowImmuneEffect();
+
+        ReturnToLastSavePoint();
+        Controllable = true;
+    }
+
+    private void ReturnToLastSavePoint()
+    {
+        var pos = transform.position;
+        pos.y = groundHandler.LastSavePoint.transform.position.y + 1;
+        transform.position = pos;
     }
 
     private void OnDrawGizmos()
