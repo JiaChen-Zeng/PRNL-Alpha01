@@ -5,12 +5,17 @@
 /// </summary>
 public class CharacterGroundHandler : MonoBehaviour
 {
+    private static bool CollidedWithGround(Collision2D collision)
+    {
+        return 0 < (collision.gameObject.layer & LayerMask.NameToLayer("Ground")) && collision.enabled;
+    }
+
     public bool Grounded { get => Ground; }
 
     private Collider2D collider;
 
     /// <summary>
-    /// 今立っているプラットフォーム
+    /// 今立っているプラットフォームか壁
     /// </summary>
     private Collider2D Ground { get; set; }
     private Collider2D prevGround;
@@ -24,7 +29,7 @@ public class CharacterGroundHandler : MonoBehaviour
 
     public void FallThroughGround()
     {
-        if (!Ground || (Ground && Ground.GetComponent<SavePoint>()?.Level == 1)) return; // 一番下のプラットフォームも落ちない
+        if (!Ground || !CanFallThrough()) return;
 
         Physics2D.IgnoreCollision(collider, Ground);
     }
@@ -35,6 +40,14 @@ public class CharacterGroundHandler : MonoBehaviour
 
         Physics2D.IgnoreCollision(collider, prevGround, false);
     }
+
+    private bool CanFallThrough()
+    {
+        return !(Ground &&
+           ((Ground.GetComponent<SavePoint>()?.Level == 1) // 一番下のプラットフォームも落ちない
+        || !Ground.CompareTag("Platform"))); // プラットフォーム以外（壁）は落ちない
+    }
+
     private void HandleSavePoint(Collision2D collision)
     {
         var savePoint = collision.gameObject.GetComponent<SavePoint>();
@@ -52,7 +65,7 @@ public class CharacterGroundHandler : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (CollidedWithGround(collision))
         {
             ReactivatePreviousGround();
             Ground = collision.collider;
@@ -62,7 +75,7 @@ public class CharacterGroundHandler : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Platform"))
+        if (CollidedWithGround(collision))
         {
             prevGround = Ground;
             Ground = null;

@@ -160,6 +160,7 @@ public class CharacterController : MonoBehaviour
             {
                 Debug.Log("DoShieldJump");
                 DoJump(shieldJumpForce);
+                airJumpCount = 0;
             }
             else if (canAirJump)
             {
