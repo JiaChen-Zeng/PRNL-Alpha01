@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿using Cysharp.Threading.Tasks;
+using UnityEngine;
+using DG.Tweening;
+using System.Collections.Generic;
+using System.Linq;
 
 public class CharacterController : MonoBehaviour
 {
@@ -42,17 +46,16 @@ public class CharacterController : MonoBehaviour
     private ShieldController shieldController;
     private PlayerGroundHandler groundHandler;
 
+    /// <summary>
+    /// `true` だとダメージを受けない。ダメージを受けたとき少しの時間 `true` になる。
+    /// </summary>
+    private bool damageImmune;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         shieldController = GetComponentInChildren<ShieldController>();
         groundHandler = GetComponentInChildren<PlayerGroundHandler>();
-    }
-
-    private void OnEnable()
-    {
-        //EventManager.pInstance.OnShieldCollision += OnShieldCollision;
-        EventManager.pInstance.OnDamageReceived += OnDamageReceived;
     }
 
     private void Update()
@@ -65,12 +68,6 @@ public class CharacterController : MonoBehaviour
     private void FixedUpdate()
     {
         Move(horizontalMove);
-    }
-
-    private void OnDestroy()
-    {
-        //EventManager.pInstance.OnShieldCollision -= OnShieldCollision;
-        EventManager.pInstance.OnDamageReceived -= OnDamageReceived;
     }
 
     public void Move(float move)
@@ -164,6 +161,7 @@ public class CharacterController : MonoBehaviour
         rb.velocity = groundHandler.GetComponent<Rigidbody2D>().velocity = Vector3.up * jumpForce; // 全体として同じ力を与えなければ、個々の間で力が交互に作用して打ち消してしまうので、きちっと数値分の力が出ない
         groundHandler.ReactivatePreviousGround();
     }
+
     private void DoAirJump(float jumpForce)
     {
         DoJump(jumpForce);
@@ -178,6 +176,7 @@ public class CharacterController : MonoBehaviour
         }
         else canShieldJump = false;
     }
+
     private void HandleFallThrough()
     {
         if (Input.GetKeyDown(KeyCode.S))
@@ -186,28 +185,37 @@ public class CharacterController : MonoBehaviour
         }
     }
 
-    public void ReceiveDamage(int damage)
+    public async void ReceiveDamage(int damage)
     {
+        if (damageImmune) return;
+
         // TODO: 被ダメ SE、ライフが 0 のとき失敗
         HitPoints -= damage;
-    }
+        damageImmune = true;
 
-    private void OnDamageReceived(Collider2D bullet)
-    {
-        //DoDamage(damage from the bullet)
-    }
+        var renderers = GetComponentsInChildren<SpriteRenderer>().Where(r => !r.GetComponent<ShieldEventHandler>());
+        var defaultColor = renderers.First().color;
+        var redColor = new Color(229f / 255, 112f / 255, 112f / 255);
 
-    private void OnShieldCollision(Collider2D collider, bool enter)
-    {
-        if (collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        await TweenColor(redColor, 0.05f);
+        await TweenColor(defaultColor, 0.05f);
+        for (int i = 0; i < 6; i++)
         {
-            //if(enter && collider)
-            //{
-            //    DoShieldJump();
-            //}
+            await TweenAlpha(0, 0.1f);
+            await TweenAlpha(1, 0.1f);
         }
-        else canShieldJump = false;
-        //Debug.LogFormat("On enter = {0}", enter);
+
+        damageImmune = false;
+
+        async UniTask TweenColor(Color redColor, float duration)
+        {
+            await UniTask.WhenAll(renderers.Select(r => r.DOColor(redColor, duration).Play().ToUniTask()));
+        }
+
+        async UniTask TweenAlpha(float alpha, float duration)
+        {
+            await UniTask.WhenAll(renderers.Select(r => r.DOFade(alpha, duration).Play().ToUniTask()));
+        }
     }
 
     private void OnDrawGizmos()
