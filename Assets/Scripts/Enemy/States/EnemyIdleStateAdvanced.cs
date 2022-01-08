@@ -12,7 +12,7 @@ public class EnemyIdleStateAdvanced : EnemyIdleState
 
     public override GameObject FovObject => intrinsicArea.gameObject;
 
-    protected override void OnDrawGizmosSelected()
+    protected void OnDrawGizmos()
     {
         if (!intrinsicArea) return;
 
