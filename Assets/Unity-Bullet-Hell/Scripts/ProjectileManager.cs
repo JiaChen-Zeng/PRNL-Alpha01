@@ -340,16 +340,6 @@ namespace BulletHell
             }
         }
 
-        void OnGUI()
-        {
-            int total = 0;
-            for (int n = 0; n < ProjectileTypeCounters.Count; n++)
-            {
-                total += ProjectileTypeCounters[n].ActiveProjectiles;
-            }
-            GUI.Label(new Rect(5, 5, 300, 20), "Projectiles: " + total.ToString());
-        }
-
         void OnApplicationQuit()
         {
             foreach (KeyValuePair<int, IndirectRenderer> kvp in IndirectRenderers)
