@@ -44,7 +44,10 @@ public class CharacterGroundHandler : MonoBehaviour
         LastSavePoint = savePoint;
 
         // TODO: 回復エフェクト
-        GameManager.INSTANCE.RecoverPlayerHP(); 
+        GameManager.INSTANCE.RecoverPlayerHP();
+
+        TimeManager.INSTANCE.ResetTimer();
+        TimeManager.INSTANCE.StartTimer();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
