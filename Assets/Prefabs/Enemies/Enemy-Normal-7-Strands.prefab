@@ -55,5 +55,9 @@ PrefabInstance:
       propertyPath: danmaku
       value: 
       objectReference: {fileID: 4262303649200114563, guid: dbc7e82b77a07ea4f8f8f0d914ff8262, type: 3}
+    - target: {fileID: 6109683586704063335, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 456d55ccdb98a894e8286f2c15ff8088, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a046980287d0724793d2e1ac15d1cfa, type: 3}
