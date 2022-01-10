@@ -8,11 +8,7 @@ namespace BulletHell
         /// <summary>
         /// `true` to disable custom shaders for rendering. Mainly because projectiles won't show on WebGL build.
         /// </summary>
-#if UNITY_WEBGL
         public readonly bool FallbackRendering = true;
-#else
-        public readonly bool FallbackRendering = false;
-#endif
 
         private bool Initialized = false;
 
