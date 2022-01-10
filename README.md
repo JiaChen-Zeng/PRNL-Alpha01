@@ -1,8 +1,15 @@
 # 正義マン（Justice Warrior）
 
-プランナーになろう会のαチームとしてUnity1Weeksに参加。お題は「正」。
+弾幕の中で自分の正義を突き進め！
 
-Unity のバーション：2020.3.15f2
+プランナーになろう会のαチームとして [Unity1Weeks](https://unityroom.com/unity1weeks/54) に参加しました。お題は「正」です。
+
+- [UnityRoom でプレイ！](https://unityroom.com/games/justice-warrior)
+- [デモプレイを見る！](https://youtu.be/ZgatfoTvNms)
+
+## ドキュメント
+
+Unity バーション：2020.3.15f2
 
 - [企画書 High Concept Document](https://docs.google.com/document/d/1GkQkNB7F0l6AHgE54wDkYKc_rT6aAaw6ItlGStvglvQ/edit)
 - [仕様書 Game Design Document](https://github.com/JiaChen-Zeng/PRNL-Alpha01/wiki)
@@ -10,3 +17,11 @@ Unity のバーション：2020.3.15f2
 - [タスクシート Priority Sheet](https://github.com/users/JiaChen-Zeng/projects/1/views/1)
 - [タスクボード Progress Board](https://github.com/users/JiaChen-Zeng/projects/1/views/4)
 - [マイルストーン Milestones](https://github.com/JiaChen-Zeng/PRNL-Alpha01/milestones)
+
+## 制作チーム
+
+- [ちぇん](https://github.com/JiaChen-Zeng)：ディレクター、リードゲームデザイナー、リードプログラマー
+- [オンカロ](https://github.com/Onka10)：ゲームデザイナー、アーティスト
+- [Vicky](https://github.com/juegoavinash)：プログラマー
+- [eisuke](https://github.com/eiei114)：サウンドデザイナー
+- [lyn](https://github.com/lyn-teambeta)：シナリオライター
