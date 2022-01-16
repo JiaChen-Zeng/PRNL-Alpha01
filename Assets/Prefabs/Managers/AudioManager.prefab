@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4647766536569380877
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4647766536569380867}
+  - component: {fileID: 4647766536569380866}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4647766536569380867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4647766536569380877}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.8214872, y: 3.3334725, z: -0.9605413}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4647766536569380866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4647766536569380877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c9e2347b37cd64b8e2b42d536b2aaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seClips:
+  - {fileID: 8300000, guid: d0769d5a03747144daf09384b1319378, type: 3}
+  - {fileID: 8300000, guid: 5cf6d93d08118b64fb0b2e01f1b46ad4, type: 3}
+  - {fileID: 8300000, guid: c511872e1f316944083ee712d654a21f, type: 3}
+  - {fileID: 8300000, guid: 7a8598b49c35033479d2052a59d13992, type: 3}
+  - {fileID: 8300000, guid: 524bcc7d223ee5d42935c6e2dddff370, type: 3}
+  - {fileID: 8300000, guid: bb9159ea54586994db56f598ca5ebe5d, type: 3}
+  - {fileID: 8300000, guid: 48f4534e613997545bbbbbed5197c440, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 0dcb0d43a44913e41847c7e1784d9a53, type: 3}
+  - {fileID: 8300000, guid: 3a311d185c2a4c84098d633ca76e6403, type: 3}
+  - {fileID: 8300000, guid: d67050c52e6aa71479160fcab4905e14, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 5980a2154adfa4147ab90a5d7fee1287, type: 3}
+  bgmClips:
+  - {fileID: 8300000, guid: 7ac654166471e1b4b8b1e8d0c71214ce, type: 3}
+  - {fileID: 8300000, guid: 096b805f66f036c45b5d3475ece37c11, type: 3}
+  - {fileID: 8300000, guid: 60bb7170db3533e43b60f4a34dcbf153, type: 3}
+  seVolume: 0.2
+  bgmVolume: 0.1
+  mute: 0
