@@ -1,6 +1,6 @@
 # 正義マン（Justice Warrior）
 
-弾幕の中で自分の正義を突き進め！
+弾幕の中で自分の正義を貫け！
 
 プランナーになろう会のαチームとして [Unity1Weeks](https://unityroom.com/unity1weeks/54) に参加しました。お題は「正」です。
 
